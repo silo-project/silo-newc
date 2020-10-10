@@ -28,7 +28,7 @@ int Simulate(void) {
 	NODE * node;
 	void (*fn)(NODE*);
 	
-	for (i=0, j=NextExecMaxID; i < j; i++) {
+	for (i = 0, j = NextExecMaxID; i < j; i++) {
 		node = NextExecList[i];
 		fn = node->function;
 		fn(node);
@@ -53,12 +53,9 @@ void SimuSend(SENDFORM sendform, SIGNAL signal) {
 }
 
 void SimuMakeList(void) {
-	NODEID i;
-	NODEID j;
+	NODEID i, j;
 	
-	j = NodeGetNumber();
-	
-	for (i = 0; i < j; i++) {
+	for (i = 0, j = NodeGetNumber(); i < j; i++) {
 		if (SentList[i])
 			NextExecList[i] = NodeGetPtr(i);
 	}

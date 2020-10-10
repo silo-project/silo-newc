@@ -13,6 +13,9 @@ int Simulate(void);
 void SimuSend(SENDFORM sendform, SIGNAL signal);
 void SimuMakeList(void);
 
+
+
+
 #endif
 
 #ifdef __cplusplus
