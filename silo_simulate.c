@@ -32,7 +32,6 @@ int Simulate(void) {
 		node = NextExecList[i];
 		fn = node->function;
 		fn(node);
-		i++;
 	}
 	
 	SimuMakeList();
