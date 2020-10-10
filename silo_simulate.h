@@ -1,4 +1,4 @@
-#indef __cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
@@ -15,6 +15,6 @@ void SimuMakeList(void);
 
 #endif
 
-#indef __cplusplus
+#ifdef __cplusplus
 }
 #endif

@@ -110,7 +110,7 @@ void GateROL(NODE * node) {
 	a = NodeReadInput(node, 0);
 	b = NodeReadInput(node, 1);
 	
-	c.value = a.value << b.value
+	c.value = a.value << b.value;
 	c.state = -1;
 	
 	SimuSend(node->output[0], c);
@@ -122,7 +122,7 @@ void GateROR(NODE * node) {
 	a = NodeReadInput(node, 0);
 	b = NodeReadInput(node, 1);
 	
-	c.value = a.value >> b.value
+	c.value = a.value >> b.value;
 	c.state = -1;
 	
 	SimuSend(node->output[0], c);

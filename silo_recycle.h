@@ -1,4 +1,4 @@
-#indef __cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
@@ -22,6 +22,6 @@ void RecyStartgc(NODEID nodeid);
 
 #endif
 
-#indef __cplusplus
+#ifdef __cplusplus
 }
 #endif

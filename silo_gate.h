@@ -1,4 +1,4 @@
-#indef __cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
@@ -27,6 +27,6 @@ void GateROR(NODE * node);
 
 #endif
 
-#indef __cplusplus
+#ifdef __cplusplus
 }
 #endif

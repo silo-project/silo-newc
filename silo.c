@@ -35,7 +35,7 @@ int main(int argc, char ** argv) {
 	int initstatrecy = RecyInit();
 	int initstatsimu = SimuInit();
 	
-	if (initstatnode || initstatrect || initstatsimu)
+	if (initstatnode || initstatrecy || initstatsimu)
 		return -1;
 	
 	a = NodeCreate();

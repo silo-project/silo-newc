@@ -1,4 +1,4 @@
-#indef __cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
@@ -26,6 +26,6 @@ inline SIGNALSIZE SignalGetError(SIGNAL signal);
 
 #endif
 
-#indef __cplusplus
+#ifdef __cplusplus
 }
 #endif
