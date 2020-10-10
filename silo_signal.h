@@ -20,8 +20,8 @@ typedef struct signalstruct {
 } SIGNAL;
 
 
-SIGNALSIZE SignalGetFloat(SIGNAL signal);
-SIGNALSIZE SignalGetError(SIGNAL signal);
+inline SIGNALSIZE SignalGetFloat(SIGNAL signal);
+inline SIGNALSIZE SignalGetError(SIGNAL signal);
 
 
 #endif

@@ -19,7 +19,7 @@ int SimuInit(void) {
 	NextExecMaxID = 0;
 	
 	if ((NextExecList == NULL) || (SentList == NULL))
-		return -1;
+		return 1;
 	else
 		return 0;
 }

@@ -31,9 +31,12 @@ int main(int argc, char ** argv) {
 	SENDFORM a_sd, b_sd, c_sd, dst;
 	NODE * node;
 	
-	NodeInit();
-	RecyInit();
-	SimuInit();
+	int initstatnode = NodeInit();
+	int initstatrecy = RecyInit();
+	int initstatsimu = SimuInit();
+	
+	if (initstatnode || initstatrect || initstatsimu)
+		return -1;
 	
 	a = NodeCreate();
 	NodeSetType(a, GateDIV);

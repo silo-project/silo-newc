@@ -23,7 +23,7 @@ int NodeInit(void) {
 	NodeLastID = 0;
 	
 	if (NodePtrTable == NULL)
-		return -1;
+		return 1;
 	
 	return 0;
 }

@@ -46,7 +46,7 @@ int RecyInit() {
 	gcOfs = 20;
 	
 	if (idStack == NULL)
-		return -1;
+		return 1;
 	else
 		return 0;
 }

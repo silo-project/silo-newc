@@ -10,6 +10,8 @@ extern "C" {
 SIGNAL NodeReadInput(NODE * node, PORTID portid);
 #define NodeRdIn NodeReadInput
 
+void GateMeetWire(NODE * node);
+
 void GateADD(NODE * node);
 void GateSUB(NODE * node);
 void GateMUL(NODE * node);
