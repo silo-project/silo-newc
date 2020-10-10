@@ -6,7 +6,7 @@
 	Description: define node-structure, send-form
 */
 
-#indef __cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
@@ -62,6 +62,6 @@ NODE * NodeGetPtr(NODEID nodeid);
 
 #endif
 
-#indef __cplusplus
+#ifdef __cplusplus
 }
 #endif

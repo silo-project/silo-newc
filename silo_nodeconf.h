@@ -6,7 +6,7 @@
 	Description: configure node
 */
 
-#indef __cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
@@ -47,6 +47,6 @@ void NodeSetMemStrg(NODE * node, int long size);
 
 #endif
 
-#indef __cplusplus
+#ifdef __cplusplus
 }
 #endif

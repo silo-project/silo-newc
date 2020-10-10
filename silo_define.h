@@ -6,7 +6,7 @@
 	Description: basic SILO defines
 */
 
-#indef __cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
@@ -34,6 +34,6 @@ typedef union unisign {
 
 #endif
 
-#indef __cplusplus
+#ifdef __cplusplus
 }
 #endif
