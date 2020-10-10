@@ -5,6 +5,11 @@
 	Date: 04-10-20 18:17 (DD-MM-YY)
 	Description: define node-structure, send-form
 */
+
+#indef __cplusplus
+extern "C" {
+#endif
+
 #ifndef SILO_NODE_HEAD
 #define SILO_NODE_HEAD
 
@@ -55,4 +60,8 @@ NODE * NodeGetPtr(NODEID nodeid);
 
 
 
+#endif
+
+#indef __cplusplus
+}
 #endif

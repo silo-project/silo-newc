@@ -5,6 +5,11 @@
 	Date: 09-10-20 16:56 (DD-MM-YY)
 	Description: configure node
 */
+
+#indef __cplusplus
+extern "C" {
+#endif
+
 #ifndef SILO_NODECONF_HEAD
 #define SILO_NODECONF_HEAD
 
@@ -40,4 +45,8 @@ void NodeSetMemStrg(NODE * node, int long size);
 
 
 
+#endif
+
+#indef __cplusplus
+}
 #endif

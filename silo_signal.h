@@ -1,3 +1,7 @@
+#indef __cplusplus
+extern "C" {
+#endif
+
 #ifndef SILO_SIGNAL_HEAD
 #define SILO_SIGNAL_HEAD
 
@@ -20,4 +24,8 @@ SIGNALSIZE SignalGetFloat(SIGNAL signal);
 SIGNALSIZE SignalGetError(SIGNAL signal);
 
 
+#endif
+
+#indef __cplusplus
+}
 #endif

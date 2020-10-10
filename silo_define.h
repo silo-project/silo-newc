@@ -6,6 +6,10 @@
 	Description: basic SILO defines
 */
 
+#indef __cplusplus
+extern "C" {
+#endif
+
 #ifndef SILO_DEFINE_HEAD
 #define SILO_DEFINE_HEAD
 
@@ -28,4 +32,8 @@ typedef union unisign {
 	SILO_ADDR sint;
 } UNISIGN;
 
+#endif
+
+#indef __cplusplus
+}
 #endif

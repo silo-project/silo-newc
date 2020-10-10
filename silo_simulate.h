@@ -1,3 +1,7 @@
+#indef __cplusplus
+extern "C" {
+#endif
+
 #ifndef SILO_SIMULATE_HEAD
 #define SILO_SIMULATE_HEAD
 
@@ -9,4 +13,8 @@ int Simulate(void);
 void SimuSend(SENDFORM sendform, SIGNAL signal);
 void SimuMakeList(void);
 
+#endif
+
+#indef __cplusplus
+}
 #endif

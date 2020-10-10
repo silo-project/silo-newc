@@ -1,3 +1,7 @@
+#indef __cplusplus
+extern "C" {
+#endif
+
 #ifndef SILO_GATE_HEAD
 #define SILO_GATE_HEAD
 
@@ -19,4 +23,8 @@ void GateROL(NODE * node);
 void GateROR(NODE * node);
 
 
+#endif
+
+#indef __cplusplus
+}
 #endif

@@ -1,3 +1,7 @@
+#indef __cplusplus
+extern "C" {
+#endif
+
 #ifndef SILO_RECYCLE_HEAD
 #define SILO_RECYCLE_HEAD
 
@@ -16,4 +20,8 @@ void RecyStartgc(NODEID nodeid);
 
 
 
+#endif
+
+#indef __cplusplus
+}
 #endif
