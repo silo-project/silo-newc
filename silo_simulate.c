@@ -26,12 +26,10 @@ int SimuInit(void) {
 int Simulate(void) {
 	NODEID i, j;
 	NODE * node;
-	void (*fn)(NODE*);
 	
 	for (i = 0, j = NextExecMaxID; i < j; i++) {
 		node = NextExecList[i];
-		fn = node->function;
-		fn(node);
+		node->function(node);
 	}
 	
 	SimuMakeList();
