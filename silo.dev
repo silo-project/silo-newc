@@ -181,17 +181,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit14]
-FileName=..\..\..\πŸ≈¡ »≠∏È\SiloNew\silo\silo_gate.c
-CompileCpp=0
-Folder=
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit15]
-FileName=..\..\..\πŸ≈¡ »≠∏È\SiloNew\silo\silo_gate.c
+FileName=silo_gate.c
 CompileCpp=0
 Folder=
 Compile=1
