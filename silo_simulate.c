@@ -24,8 +24,7 @@ int SimuInit(void) {
 		return 0;
 }
 int Simulate(void) {
-	NODEID i;
-	NODEID j;
+	NODEID i, j;
 	NODE * node;
 	void (*fn)(NODE*);
 	
@@ -46,13 +45,10 @@ int Simulate(void) {
 
 void SimuSend(SENDFORM sendform, SIGNAL signal) {
 	NODE * node;
-	SIGNAL * dest;
 	SentList[sendform.nodeid] = true;
 	node = NodeGetPtr(sendform.nodeid);
-	dest = node->input;
 	
-	*(dest+(sendform.portid)) = signal;
-	
+	node->input[sendform.portid] = signal;
 	return;
 }
 
