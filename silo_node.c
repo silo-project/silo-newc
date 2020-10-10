@@ -66,10 +66,7 @@ void NodeAddPtr(NODE * node, NODEID nodeid) {
 void NodeDelete(NODEID nodeid) {
 	NODE * ptr = *(NodePtrTable+nodeid);
 	
-	free(ptr->attribute);
-	free(ptr->input);
 	free(ptr->storage);
-	free(ptr->output);
 	free(ptr);
 	
 	if (!RecyStatus())
