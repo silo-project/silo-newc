@@ -16,7 +16,7 @@ void GateADD(NODE * node);
 void GateSUB(NODE * node);
 void GateMUL(NODE * node);
 void GateDIV(NODE * node);
-void GateMUL(NODE * node);
+void GateMOD(NODE * node);
 void GateAND(NODE * node);
 void GateIOR(NODE * node);
 void GateEOR(NODE * node);

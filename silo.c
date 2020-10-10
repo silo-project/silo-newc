@@ -39,7 +39,7 @@ int main(int argc, char ** argv) {
 		return -1;
 	
 	a = NodeCreate();
-	NodeSetType(a, GateDIV);
+	NodeSetType(a, GateMUL);
 	NodeSetMemory(a, 32);
 	NodeSetOfsInpt(a, 0);
 	NodeSetOfsOupt(a, 4);
@@ -49,10 +49,10 @@ int main(int argc, char ** argv) {
 	printf("Pointer(Input) : %p\n", node->input);
 	printf("Pointer(Output) : %p\n", node->output);
 	
-	a_ar.value = 12;
+	a_ar.value = 25;
 	a_ar.state = -1;
 	
-	b_ar.value = 3;
+	b_ar.value = 7;
 	b_ar.state = -1;
 	
 	a_sd.nodeid = a;

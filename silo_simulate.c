@@ -39,8 +39,7 @@ int Simulate(void) {
 
 
 
-
-void SimuSend(SENDFORM sendform, SIGNAL signal) {
+inline void SimuSend(SENDFORM sendform, SIGNAL signal) {
 	NODE * node;
 	SentList[sendform.nodeid] = true;
 	node = NodeGetPtr(sendform.nodeid);
