@@ -30,7 +30,6 @@ int main(int argc, char ** argv) {
 	SIGNAL a_ar, b_ar;
 	SENDFORM a_sd, b_sd, c_sd, dst;
 	NODE * node;
-	int i;
 	
 	int initstatnode = NodeInit();
 	int initstatrecy = RecyInit();
@@ -44,7 +43,6 @@ int main(int argc, char ** argv) {
 	NodeSetMemory(a, 32);
 	NodeSetOfsInpt(a, 0);
 	NodeSetOfsOupt(a, 4);
-	NodeSetOfsBuff(a, 6);
 	
 	node = NodeGetPtr(a);
 	
@@ -70,17 +68,14 @@ int main(int argc, char ** argv) {
 	dst.portid = 0;
 	
 	NodeSetOupt(dst, c_sd);
-
-	SimuSendSignal(a_sd, a_ar);
-	SimuSendSignal(b_sd, b_ar);
-
+	
+	SimuSend(a_sd, a_ar);
+	SimuSend(b_sd, b_ar);
+	
 	SimuMakeList();
-
 	Simulate();
 	
-	for (i = 0; i < 32; i++) {
-		printf("Result : %d\n", node->input[i].value);
-	}
+	printf("Result : %d\n", node->input[2].value);
 	
 	return 0;
 }

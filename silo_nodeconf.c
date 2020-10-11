@@ -32,10 +32,6 @@ void NodeSetOfsInpt(NODEID nodeid, DEFT_ADDR offset) {
 	NODE * node = NodeGetPtr(nodeid);
 	node->input = (SIGNAL*)(node->storage+offset);
 }
-void NodeSetOfsBuff(NODEID nodeid, DEFT_ADDR offset) {
-	NODE * node = NodeGetPtr(nodeid);
-	node->buffer = (SIGNAL*)(node->storage+offset);
-}
 void NodeSetOfsOupt(NODEID nodeid, DEFT_ADDR offset) {
 	NODE * node = NodeGetPtr(nodeid);
 	node->output = (SENDFORM*)(node->storage+offset);
@@ -45,7 +41,7 @@ void NodeSetOfsOupt(NODEID nodeid, DEFT_ADDR offset) {
 
 
 // node configuration
-void NodeSetType(NODEID nodeid, PORTID (*fn)(NODE*)) {
+void NodeSetType(NODEID nodeid, void (*fn)(NODE*)) {
 	NODE * node;
 	node = NodeGetPtr(nodeid);
 	node->function = fn;

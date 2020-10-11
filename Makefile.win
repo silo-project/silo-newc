@@ -1,6 +1,9 @@
 # Project: silo
 # Makefile created by Dev-C++ 5.11
 
+# This Makefile is written for syntax check!
+# Regenerate it if you want to use this Makefile to build.
+
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
@@ -10,11 +13,11 @@ LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
 BIN      = silo.exe
-CXXFLAGS = $(CXXINCS) 
-CFLAGS   = $(INCS) 
+CXXFLAGS = $(CXXINCS) -fsyntax-only
+CFLAGS   = $(INCS) -fsyntax-only
 RM       = rm.exe -f
 
-.PHONY: all all-before all-after clean clean-custom
+.PHONY: all all-before all-after clean clean-custom $(OBJ) $(BIN)
 
 all: all-before $(BIN) all-after
 
@@ -22,25 +25,24 @@ clean: clean-custom
 	${RM} $(OBJ) $(BIN)
 
 $(BIN): $(OBJ)
-	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
 
 silo_node.o: silo_node.c
-	$(CC) -c silo_node.c -o silo_node.o $(CFLAGS)
+	$(CC) -c silo_node.c $(CFLAGS)
 
 silo_recycle.o: silo_recycle.c
-	$(CC) -c silo_recycle.c -o silo_recycle.o $(CFLAGS)
+	$(CC) -c silo_recycle.c $(CFLAGS)
 
 silo_signal.o: silo_signal.c
-	$(CC) -c silo_signal.c -o silo_signal.o $(CFLAGS)
+	$(CC) -c silo_signal.c $(CFLAGS)
 
 silo_simulate.o: silo_simulate.c
-	$(CC) -c silo_simulate.c -o silo_simulate.o $(CFLAGS)
+	$(CC) -c silo_simulate.c $(CFLAGS)
 
 silo.o: silo.c
-	$(CC) -c silo.c -o silo.o $(CFLAGS)
+	$(CC) -c silo.c $(CFLAGS)
 
 silo_nodeconf.o: silo_nodeconf.c
-	$(CC) -c silo_nodeconf.c -o silo_nodeconf.o $(CFLAGS)
+	$(CC) -c silo_nodeconf.c $(CFLAGS)
 
 silo_gate.o: silo_gate.c
-	$(CC) -c silo_gate.c -o silo_gate.o $(CFLAGS)
+	$(CC) -c silo_gate.c $(CFLAGS)
