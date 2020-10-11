@@ -28,7 +28,7 @@ typedef enum logic {false, true} bool;
 #define BASICMEM 4096 // 4KiB = 1Page
 
 typedef union unisign {
-	SILO_WORD uint;
+	DEFT_WORD uint;
 	SILO_ADDR sint;
 } UNISIGN;
 

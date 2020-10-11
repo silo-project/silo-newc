@@ -25,11 +25,13 @@ int SimuInit(void) {
 }
 int Simulate(void) {
 	NODEID i, j;
+	PORTID portid;
 	NODE * node;
 	
 	for (i = 0, j = NextExecMaxID; i < j; i++) {
 		node = NextExecList[i];
-		node->function(node);
+		portid = node->function(node);
+		SimuTransfer(node, portid);
 	}
 	
 	SimuMakeList();
@@ -38,16 +40,29 @@ int Simulate(void) {
 }
 
 
-
-inline void SimuSend(SENDFORM sendform, SIGNAL signal) {
-	NODE * node;
-	SentList[sendform.nodeid] = true;
-	node = NodeGetPtr(sendform.nodeid);
+inline void SimuTransfer(NODE * node, PORTID portid) {
+	NODE * dest;
+	PORTID i;
 	
-	node->input[sendform.portid] = signal;
+	for (i = 0; i < portid; i++) {
+		dest = NodeGetPtr(node->output[i].nodeid);
+		dest->input[i] = node->buffer[i];
+		SentList[node->output[i].nodeid] = true; 
+	}
+	
 	return;
 }
 
+inline void SimuSendSignal(SENDFORM sendform, SIGNAL signal) {
+	NODE * node = NodeGetPtr(sendform.nodeid);
+	node->input[sendform.portid] = signal;
+	SentList[sendform.nodeid] = true;
+}
+
+inline void SimuSend(NODE * node, PORTID portid, SIGNAL signal) {
+	node->buffer[portid] = signal;
+	return;
+}
 void SimuMakeList(void) {
 	NODEID i, j;
 	

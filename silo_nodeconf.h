@@ -26,7 +26,7 @@ void NodeSetOfsOupt(NODEID nodeid, DEFT_ADDR offset);
 
 
 
-void NodeSetType(NODEID nodeid, void (*fn)(NODE*));
+void NodeSetType(NODEID nodeid, PORTID (*fn)(NODE*));
 void NodeSetAttr(NODEID nodeid, DEFT_WORD attr, DEFT_ADDR index);
 void NodeSetAttrs(NODEID nodeid, DEFT_WORD * attr, DEFT_ADDR limit);
 // input is not able

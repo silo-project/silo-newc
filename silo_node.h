@@ -21,10 +21,11 @@ typedef struct nodestruct NODE;
 typedef struct sendformat SENDFORM;
 
 typedef struct nodestruct {
-	void (*function)(NODE*);
+	PORTID (*function)(NODE*);
 	VALUE     * storage;
 	DEFT_WORD * attribute;
 	SIGNAL    * input;
+	SIGNAL    * buffer;
 	SENDFORM  * output;
 } NODE;
 
@@ -32,6 +33,8 @@ typedef struct sendformat {
 	NODEID nodeid;
 	PORTID portid;
 } SENDFORM;
+
+
 
 // variables
 

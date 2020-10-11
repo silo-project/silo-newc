@@ -9,9 +9,16 @@ inline SIGNAL NodeReadInput(NODE * node, PORTID portid) {
 	return node->input[portid];
 }
 
+inline void   NodeWriteOupt(NODE * node, PORTID portid, SIGNAL signal) {
+	node->buffer[portid] = signal;
+}
+
+#define NodeRdI NodeReadInput
+#define NodeWrO NodeWriteOupt
 
 
-void GateADD(NODE * node) {
+
+PORTID GateADD(NODE * node) {
     SIGNAL a, b, c;
     a = NodeReadInput(node, 0);
     b = NodeReadInput(node, 1);
@@ -19,10 +26,10 @@ void GateADD(NODE * node) {
     c.value = a.value + b.value;
     c.state = -1;
 
-    SimuSend(node->output[0], c);
-    return;
+    NodeWriteOupt(node, 0, c);
+    return 1;
 }
-void GateSUB(NODE * node) {
+PORTID GateSUB(NODE * node) {
     SIGNAL a, b, c;
     a = NodeReadInput(node, 0);
     b = NodeReadInput(node, 1);
@@ -30,10 +37,10 @@ void GateSUB(NODE * node) {
     c.value = a.value - b.value;
     c.state = -1;
 
-    SimuSend(node->output[0], c);
-    return;
+    NodeWriteOupt(node, 0, c);
+    return 1;
 }
-void GateMUL(NODE * node) {
+PORTID GateMUL(NODE * node) {
     SIGNAL a, b, c;
     a = NodeReadInput(node, 0);
     b = NodeReadInput(node, 1);
@@ -41,10 +48,10 @@ void GateMUL(NODE * node) {
     c.value = a.value * b.value;
     c.state = -1;
 
-    SimuSend(node->output[0], c);
-    return;
+    NodeWriteOupt(node, 0, c);
+    return 1;
 }
-void GateDIV(NODE * node) {
+PORTID GateDIV(NODE * node) {
 	SIGNAL a, b, c;
 	a = NodeReadInput(node, 0);
 	b = NodeReadInput(node, 1);
@@ -52,10 +59,10 @@ void GateDIV(NODE * node) {
 	c.value = a.value / b.value;
 	c.state = -1;
 
-	SimuSend(node->output[0], c);
-	return;
+	NodeWriteOupt(node, 0, c);
+	return 1;
 }
-void GateMOD(NODE * node) {
+PORTID GateMOD(NODE * node) {
     SIGNAL a, b, c;
     a = NodeReadInput(node, 0);
     b = NodeReadInput(node, 1);
@@ -63,10 +70,10 @@ void GateMOD(NODE * node) {
     c.value = a.value % b.value;
     c.state = -1;
 
-    SimuSend(node->output[0], c);
-    return;
+    NodeWriteOupt(node, 0, c);
+    return 1;
 }
-void GateAND(NODE * node) {
+PORTID GateAND(NODE * node) {
     SIGNAL a, b, c;
     a = NodeReadInput(node, 0);
     b = NodeReadInput(node, 1);
@@ -74,11 +81,11 @@ void GateAND(NODE * node) {
     c.value = a.value & b.value;
     c.state = -1;
 
-    SimuSend(node->output[0], c);
-    return;
+    NodeWriteOupt(node, 0, c);
+    return 1;
 }
 
-void GateIOR(NODE * node) {
+PORTID GateIOR(NODE * node) {
     SIGNAL a, b, c;
     a = NodeReadInput(node, 0);
     b = NodeReadInput(node, 1);
@@ -86,11 +93,11 @@ void GateIOR(NODE * node) {
     c.value = a.value | b.value;
     c.state = -1;
 
-    SimuSend(node->output[0], c);
-    return;
+    NodeWriteOupt(node, 0, c);
+    return 1;
 }
 
-void GateEOR(NODE * node) {
+PORTID GateEOR(NODE * node) {
     SIGNAL a, b, c;
     a = NodeReadInput(node, 0);
     b = NodeReadInput(node, 1);
@@ -98,13 +105,13 @@ void GateEOR(NODE * node) {
     c.value = a.value ^ b.value;
     c.state = -1;
 
-    SimuSend(node->output[0], c);
-    return;
+    NodeWriteOupt(node, 0, c);
+    return 1;
 }
 
 
 
-void GateROL(NODE * node) {
+PORTID GateROL(NODE * node) {
 	SIGNAL a, b, c;
 	
 	a = NodeReadInput(node, 0);
@@ -113,10 +120,10 @@ void GateROL(NODE * node) {
 	c.value = a.value << b.value;
 	c.state = -1;
 	
-	SimuSend(node->output[0], c);
-	return;
+	NodeWriteOupt(node, 0, c);
+	return 1;
 }
-void GateROR(NODE * node) {
+PORTID GateROR(NODE * node) {
 	SIGNAL a, b, c;
 	
 	a = NodeReadInput(node, 0);
@@ -125,8 +132,8 @@ void GateROR(NODE * node) {
 	c.value = a.value >> b.value;
 	c.state = -1;
 	
-	SimuSend(node->output[0], c);
-	return;
+	NodeWriteOupt(node, 0, c);
+	return 1;
 }
 
 #endif

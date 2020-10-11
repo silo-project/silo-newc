@@ -10,7 +10,10 @@ extern "C" {
 int SimuInit(void);
 int Simulate(void);
 
-inline void SimuSend(SENDFORM sendform, SIGNAL signal);
+inline void SimuSendSignal(SENDFORM sendform, SIGNAL signal);
+
+inline void SimuTransfer(NODE * node, PORTID portid);
+inline void SimuSend(NODE * node, PORTID portid, SIGNAL signal);
 void SimuMakeList(void);
 
 #endif
