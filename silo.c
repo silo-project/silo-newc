@@ -37,9 +37,9 @@ int main(int argc, char ** argv) {
 	if (initstatnode || initstatrecy || initstatsimu)
 		return -1;
 	
-	for (i = 0; i < 8192; i++) {
-		printf("%d ,", i);
-		NodeCreate();
+	for (i = 0; i < 8192;) {
+		printf("Nodeid : %d, ", i);
+		i = NodeCreate();
 	}
 	
 	scanf("%s", NULL);
