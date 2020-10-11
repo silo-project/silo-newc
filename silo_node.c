@@ -53,13 +53,35 @@ int NodeReSizeTable() {
 NODEID NodeCreate(void) {
 	NODEID nodeid;
 	NODE * ptr = (NODE*)malloc(sizeof(NODE));
+	ptr->storage = NULL;
 	
 	nodeid = NodeGetID();
 	if (nodeid > NodeTableSize)
-		NodeReSizeTable();
+		if (NodeReSizeTable())
+			return;
 	NodeAddPtr(ptr, nodeid);
 	
 	return nodeid;
+}
+
+// delete node
+void NodeDelete(NODEID nodeid) {
+	NODE * ptr = *(NodePtrTable+nodeid);
+	
+	if (ptr->storage != NULL)
+		free(ptr->storage);
+	free(ptr);
+	
+	if (!RecyStatus())
+		NodeLastID = 0;
+	
+	return;
+}
+
+// recycle node
+void NodeRecycle(NODEID nodeid) {
+	RecyPush(nodeid);
+	return;
 }
 
 // node ptr put in table
@@ -69,19 +91,6 @@ void NodeAddPtr(NODE * node, NODEID nodeid) {
 		realloc(NodePtrTable, NodeTableSize);
 	}
 	NodePtrTable[nodeid] = node;
-	return;
-}
-
-// delete node
-void NodeDelete(NODEID nodeid) {
-	NODE * ptr = *(NodePtrTable+nodeid);
-	
-	free(ptr->storage);
-	free(ptr);
-	
-	if (!RecyStatus())
-		NodeLastID = 0;
-	
 	return;
 }
 

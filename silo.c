@@ -26,8 +26,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "silo_gate.h"
 
 int main(int argc, char ** argv) {
-	NODEID a;
-	SENDFORM a_sd, b_sd, c_sd, dst;
+	NODEID nodeid;
 	NODE * node;
 	
 	int initstatnode = NodeInit();
@@ -37,38 +36,8 @@ int main(int argc, char ** argv) {
 	if (initstatnode || initstatrecy || initstatsimu)
 		return -1;
 	
-	a = NodeCreate();
-	NodeSetType(a, GateMUL);
-	NodeSetMemory(a, 32);
-	NodeSetOfsInpt(a, 0);
-	NodeSetOfsOupt(a, 4);
-	
-	node = NodeGetPtr(a);
-	
-	printf("Pointer(Input) : %p\n", node->input);
-	printf("Pointer(Output) : %p\n", node->output);
-	
-	a_sd.nodeid = a;
-	a_sd.portid = 0;
-	
-	b_sd.nodeid = a;
-	b_sd.portid = 1;
-	
-	c_sd.nodeid = a;
-	c_sd.portid = 2;
-	
-	dst.nodeid = a;
-	dst.portid = 0;
-	
-	NodeSetOupt(dst, c_sd);
-	
-	SimuSendInteger(a_sd, 12);
-	SimuSendInteger(b_sd, 34);
-	
-	SimuMakeList();
-	Simulate();
-	
-	printf("Result : %d\n", node->input[2].value);
+	nodeid = NodeCreate();
+	NodeDelete(nodeid);
 	
 	return 0;
 }

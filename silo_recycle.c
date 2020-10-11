@@ -8,7 +8,7 @@
 #include "silo_recycle.h"
 
 // variables
-static NODEID stackPtr;
+static SILO_WORD stackPtr;
 static NODEID gcOfs;
 
 static NODEID * idStack;
@@ -31,6 +31,24 @@ int RecyInit() {
 	else
 		return 0;
 }
+int RecyReSizeStack() {
+	int n;
+	NODEID * p;
+	
+	stackSize = stackPtr / (BASICMEM/sizeof(NODEID));
+	if (stackPtr / (BASICMEM/sizeof(NODEID)))
+		stackSize++;
+		
+	p = (NODEID*)realloc(idStack, stackSize);
+	
+	if (p == NULL)
+		return 1;
+	else {
+		idStack = p;
+		return 0;
+	}
+}
+
 
 int RecyStatus(void) {
 	if (stackPtr != 0)
@@ -55,7 +73,7 @@ void RecyPush(NODEID nodeid) {
 }
 NODEID RecyPull(void) {
 	NODEID nodeid;
-	if (stackPtr != 0)
+	if (stackPtr >= 0)
 		nodeid = idStack[--stackPtr];
 	else
 		printf("\nWarning! : Stack Underflow.\n");
