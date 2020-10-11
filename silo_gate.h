@@ -24,6 +24,8 @@ void GateEOR(NODE * node);
 void GateROL(NODE * node);
 void GateROR(NODE * node);
 
+void GateMUX(NODE * node);
+
 
 #endif
 
