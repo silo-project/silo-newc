@@ -20,22 +20,32 @@ int NodeInit(void) {
 		free(NodePtrTable);
 	
 	NodeTableSize = BASICMEM;
-	NodePtrTable = (NODE**)malloc(NodeTableSize*sizeof(NODE*));
+	NodePtrTable = (NODE**)malloc(NodeTableSize);
 	NodeLastID = 0;
 	
 	if (NodePtrTable == NULL)
 		return 1;
+	else
+		return 0;
+}
+int NodeReSizeTable() {
+	int n;
+	NODE ** p;
 	
-	return 0;
+	NodeTableSize = NodeLastID / (BASICMEM/sizeof(NODE*));
+	if (NodeLastID % (BASICMEM/sizeof(NODE*)))
+		NodeTableSize++;
+	
+	p = (NODE**)realloc(NodePtrTable, BASICMEM*NodeTableSize);
+	
+	if (p == NULL)
+		return 1;
+	else {
+		NodePtrTable = p;
+		return 0;
+	}
 }
 
-int NodeTest() {
-	NODEID nodeid;
-	nodeid = NodeCreate();
-	
-	printf("NodeCreate : %d\n", sizeof(*(NodeGetPtr(nodeid))));
-	return nodeid;
-}
 
 
 
@@ -45,10 +55,9 @@ NODEID NodeCreate(void) {
 	NODE * ptr = (NODE*)malloc(sizeof(NODE));
 	
 	nodeid = NodeGetID();
+	if (nodeid > NodeTableSize)
+		NodeReSizeTable();
 	NodeAddPtr(ptr, nodeid);
-	
-	if (NodePtrTable == NULL)
-		printf("\n\nWarning : Memory Allocation Error!\n\n");
 	
 	return nodeid;
 }

@@ -15,25 +15,6 @@ static NODEID * idStack;
 static NODEID stackSize;
 
 // functions
-void RecyTest(void) {
-	int i;
-	NODEID nodeid;
-	NODEID arr[10];
-	
-	for (i = 0; i < 10; i++) {
-		arr[i] = NodeGetID();
-	}
-	for (i = 0; i < 10; i++) {
-		RecyPush(arr[i]);
-	}
-	
-	for (i = 0; i < 10; i++) {
-		printf("Pull : %d\n", RecyPull());
-	}
-	return;
-}
-
-
 
 // initialization recycle system
 int RecyInit() {
