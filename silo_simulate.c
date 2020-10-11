@@ -39,13 +39,16 @@ int Simulate(void) {
 
 
 
-inline void SimuSend(SENDFORM sendform, SIGNAL signal) {
+void SimuSend(SENDFORM sendform, SIGNAL signal) {
 	NODE * node;
 	SentList[sendform.nodeid] = true;
 	node = NodeGetPtr(sendform.nodeid);
 	
 	node->input[sendform.portid] = signal;
 	return;
+}
+void SimuSendInt(SENDFORM sendform, DEFT_WORD integer) {
+	
 }
 
 void SimuMakeList(void) {

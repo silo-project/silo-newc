@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include "silo_define.h"
 #include "silo_node.h"
+#include "silo_recycle.h"
 
 static NODE ** NodePtrTable;
 

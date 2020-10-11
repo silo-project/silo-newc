@@ -7,6 +7,7 @@ add_executable(main ${SOURCES} ${HEADERS})
 
 set_property(TARGET main PROPERTY C_STANDARD 11)
 
+
 if(MSVC)
   target_compile_definitions(main PRIVATE /W4 /WX /Za /permissive-)
 else()

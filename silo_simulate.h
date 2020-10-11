@@ -10,7 +10,7 @@ extern "C" {
 int SimuInit(void);
 int Simulate(void);
 
-inline void SimuSend(SENDFORM sendform, SIGNAL signal);
+void SimuSend(SENDFORM sendform, SIGNAL signal);
 void SimuMakeList(void);
 
 #endif
