@@ -47,8 +47,17 @@ void SimuSend(SENDFORM sendform, SIGNAL signal) {
 	node->input[sendform.portid] = signal;
 	return;
 }
-void SimuSendInt(SENDFORM sendform, DEFT_WORD integer) {
+void SimuSendInteger(SENDFORM sendform, DEFT_WORD integer) {
+	NODE * node;
+	SIGNAL signal;
 	
+	SentList[sendform.nodeid] = true;
+	node = NodeGetPtr(sendform.nodeid);
+	
+	signal.state = -1;
+	signal.value = integer;
+	node->input[sendform.portid] = signal;
+	return;
 }
 
 void SimuMakeList(void) {

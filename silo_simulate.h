@@ -11,6 +11,7 @@ int SimuInit(void);
 int Simulate(void);
 
 void SimuSend(SENDFORM sendform, SIGNAL signal);
+void SimuSendInteger(SENDFORM sendform, DEFT_WORD integer);
 void SimuMakeList(void);
 
 #endif

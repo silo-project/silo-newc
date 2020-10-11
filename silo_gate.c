@@ -130,9 +130,6 @@ void GateROR(NODE * node) {
 }
 
 void GateMUX(NODE * node) {
-	SIGNAL a, b, c;
 	
-	a = NodeReadInput;
 }
-
 #endif

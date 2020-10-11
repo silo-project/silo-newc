@@ -27,7 +27,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 int main(int argc, char ** argv) {
 	NODEID a;
-	SIGNAL a_ar, b_ar;
 	SENDFORM a_sd, b_sd, c_sd, dst;
 	NODE * node;
 	
@@ -49,12 +48,6 @@ int main(int argc, char ** argv) {
 	printf("Pointer(Input) : %p\n", node->input);
 	printf("Pointer(Output) : %p\n", node->output);
 	
-	a_ar.value = 25;
-	a_ar.state = -1;
-	
-	b_ar.value = 7;
-	b_ar.state = -1;
-	
 	a_sd.nodeid = a;
 	a_sd.portid = 0;
 	
@@ -69,8 +62,8 @@ int main(int argc, char ** argv) {
 	
 	NodeSetOupt(dst, c_sd);
 	
-	SimuSend(a_sd, a_ar);
-	SimuSend(b_sd, b_ar);
+	SimuSendInteger(a_sd, 12);
+	SimuSendInteger(b_sd, 34);
 	
 	SimuMakeList();
 	Simulate();
