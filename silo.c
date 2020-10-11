@@ -28,6 +28,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 int main(int argc, char ** argv) {
 	NODEID nodeid;
 	NODE * node;
+	int i;
 	
 	int initstatnode = NodeInit();
 	int initstatrecy = RecyInit();
@@ -36,8 +37,12 @@ int main(int argc, char ** argv) {
 	if (initstatnode || initstatrecy || initstatsimu)
 		return -1;
 	
-	nodeid = NodeCreate();
-	NodeDelete(nodeid);
+	for (i = 0; i < 8192; i++) {
+		printf("%d ,", i);
+		NodeCreate();
+	}
+	
+	scanf("%s", NULL);
 	
 	return 0;
 }

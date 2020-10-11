@@ -32,11 +32,12 @@ int NodeReSizeTable() {
 	int n;
 	NODE ** p;
 	
-	NodeTableSize = NodeLastID / (BASICMEM/sizeof(NODE*));
+	n = NodeLastID / (BASICMEM/sizeof(NODE*));
 	if (NodeLastID % (BASICMEM/sizeof(NODE*)))
-		NodeTableSize++;
+		n++;
+	NodeTableSize = BASICMEM * n;
 	
-	p = (NODE**)realloc(NodePtrTable, BASICMEM*NodeTableSize);
+	p = (NODE**)realloc(NodePtrTable, NodeTableSize);
 	
 	if (p == NULL)
 		return 1;
@@ -56,10 +57,12 @@ NODEID NodeCreate(void) {
 	ptr->storage = NULL;
 	
 	nodeid = NodeGetID();
-	if (nodeid > NodeTableSize)
+	if (nodeid > NodeTableSize/sizeof(NODE*))
 		if (NodeReSizeTable())
 			return;
 	NodeAddPtr(ptr, nodeid);
+	
+	printf("Node Table Size : %d\n", NodeTableSize);
 	
 	return nodeid;
 }
