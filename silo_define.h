@@ -13,6 +13,8 @@ extern "C" {
 #ifndef SILO_DEFINE_HEAD
 #define SILO_DEFINE_HEAD
 
+#include <stdbool.h>
+
 // default processing size
 #define SILO_WORD int
 #define SILO_ADDR long long
@@ -23,7 +25,6 @@ typedef unsigned SILO_ADDR DEFT_ADDR;
 typedef DEFT_WORD SIGNALSIZE;
 typedef DEFT_WORD NODEID;
 typedef DEFT_WORD PORTID;
-typedef enum logic {false, true} bool;
 
 #define BASICMEM 4096 // 4KiB = 1Page
 

@@ -48,11 +48,11 @@ void NodeDelete(NODEID);
 
 void NodeRecycle(NODEID);
 
-void NodeAddPtr(NODE * node, NODEID nodeid);
+void NodeAddPtr(NODEID nodeid, NODE * node);
 
 NODEID NodeGetID();
 NODEID NodeGetNumber();
-NODE * NodeGetPtr(NODEID nodeid);
+inline NODE * NodeGetPtr(NODEID nodeid);
 
 
 

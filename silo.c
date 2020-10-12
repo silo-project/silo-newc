@@ -37,12 +37,18 @@ int main(int argc, char ** argv) {
 	if (initstatnode || initstatrecy || initstatsimu)
 		return -1;
 	
-	for (i = 0; i < 8192;) {
-		printf("Nodeid : %d, ", i);
+	for (; i < 2048;) {
 		i = NodeCreate();
+		printf("Nodeid : %d\n", i);
 	}
 	
-	scanf("%s", NULL);
+	for (i = 0; i < 2048; i++) {
+		NodeDelete(i);
+	}
+	
+	for (i = 0; i < 2048; i++) {
+		printf("Node Pointer(Index : %d) : %p\n", i, NodeGetPtr(i));
+	}
 	
 	return 0;
 }

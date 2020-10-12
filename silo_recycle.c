@@ -3,16 +3,23 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "silo_define.h"
 #include "silo_node.h"
 #include "silo_recycle.h"
 
 // variables
-static SILO_WORD stackPtr;
-static NODEID gcOfs;
 
 static NODEID * idStack;
 static NODEID stackSize;
+static NODEID stackPtr;
+
+static bool isStackFull;
+static bool isStackSign;
+
+static NODEID gcOfs;
+
+
 
 // functions
 
@@ -25,6 +32,8 @@ int RecyInit() {
 	idStack = malloc(sizeof(NODEID) * stackSize);
 	
 	gcOfs = 20;
+	isStackFull = false;
+	isStackSign = false;
 	
 	if (idStack == NULL)
 		return 1;

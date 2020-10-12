@@ -29,6 +29,7 @@ int NodeInit(void) {
 		return 0;
 }
 int NodeReSizeTable() {
+	NODEID i;
 	int n;
 	NODE ** p;
 	
@@ -39,7 +40,7 @@ int NodeReSizeTable() {
 	
 	p = (NODE**)realloc(NodePtrTable, NodeTableSize);
 	
-	if (p == NULL)
+	if (p == 0)
 		return 1;
 	else {
 		NodePtrTable = p;
@@ -49,18 +50,23 @@ int NodeReSizeTable() {
 
 
 
-
 // create empty node
 NODEID NodeCreate(void) {
 	NODEID nodeid;
-	NODE * ptr = (NODE*)malloc(sizeof(NODE));
-	ptr->storage = NULL;
+	NODE * ptr;
 	
 	nodeid = NodeGetID();
-	if (nodeid > NodeTableSize/sizeof(NODE*))
-		if (NodeReSizeTable())
+	ptr = (NODE*)malloc(sizeof(NODE));
+	
+	if (nodeid >= NodeTableSize/sizeof(NODE*)) {
+		if (NodeReSizeTable()) {
+			printf("error\n");
 			return;
-	NodeAddPtr(ptr, nodeid);
+		}
+	}
+	
+	ptr->storage = NULL;
+	NodePtrTable[nodeid] = ptr;
 	
 	printf("Node Table Size : %d\n", NodeTableSize);
 	
@@ -69,14 +75,13 @@ NODEID NodeCreate(void) {
 
 // delete node
 void NodeDelete(NODEID nodeid) {
-	NODE * ptr = *(NodePtrTable+nodeid);
+	NODE * ptr = NodeGetPtr(nodeid);
 	
-	if (ptr->storage != NULL)
+	if (ptr->storage != NULL) {
+		printf("debug(NodeDelete) : %d\n", nodeid);
 		free(ptr->storage);
+	}
 	free(ptr);
-	
-	if (!RecyStatus())
-		NodeLastID = 0;
 	
 	return;
 }
@@ -88,12 +93,10 @@ void NodeRecycle(NODEID nodeid) {
 }
 
 // node ptr put in table
-void NodeAddPtr(NODE * node, NODEID nodeid) {
-	if (NodeTableSize < nodeid) {
-		NodeTableSize += sizeof(NODE*) * BASICMEM;
-		realloc(NodePtrTable, NodeTableSize);
-	}
+void NodeAddPtr(NODEID nodeid, NODE * node) {
 	NodePtrTable[nodeid] = node;
+	if (NodePtrTable[nodeid] == 0)
+		printf("error\n\n\n");
 	return;
 }
 
@@ -106,8 +109,8 @@ NODEID NodeGetID() {
 NODEID NodeGetNumber() {
 	return NodeLastID;
 }
-NODE * NodeGetPtr(NODEID nodeid) {
-	return *(NodePtrTable+nodeid);
+inline NODE * NodeGetPtr(NODEID nodeid) {
+	return NodePtrTable[nodeid];
 }
 
 

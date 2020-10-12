@@ -37,6 +37,10 @@ int Simulate(void) {
 	return 0;
 }
 
+int SimuReSizeList() {
+	
+}
+
 
 
 void SimuSend(SENDFORM sendform, SIGNAL signal) {
