@@ -58,17 +58,12 @@ NODEID NodeCreate(void) {
 	nodeid = NodeGetID();
 	ptr = (NODE*)malloc(sizeof(NODE));
 	
-	if (nodeid >= NodeTableSize/sizeof(NODE*)) {
-		if (NodeReSizeTable()) {
-			printf("error\n");
+	if (nodeid >= NodeTableSize/sizeof(NODE*))
+		if (NodeReSizeTable())
 			return;
-		}
-	}
 	
 	ptr->storage = NULL;
 	NodePtrTable[nodeid] = ptr;
-	
-	printf("Node Table Size : %d\n", NodeTableSize);
 	
 	return nodeid;
 }
@@ -77,10 +72,8 @@ NODEID NodeCreate(void) {
 void NodeDelete(NODEID nodeid) {
 	NODE * ptr = NodeGetPtr(nodeid);
 	
-	if (ptr->storage != NULL) {
-		printf("debug(NodeDelete) : %d\n", nodeid);
+	if (ptr->storage != NULL)
 		free(ptr->storage);
-	}
 	free(ptr);
 	
 	return;
@@ -95,8 +88,6 @@ void NodeRecycle(NODEID nodeid) {
 // node ptr put in table
 void NodeAddPtr(NODEID nodeid, NODE * node) {
 	NodePtrTable[nodeid] = node;
-	if (NodePtrTable[nodeid] == 0)
-		printf("error\n\n\n");
 	return;
 }
 
