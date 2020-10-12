@@ -1,6 +1,3 @@
-
-silo.exe
-*.o
-silo_simulate.o
-silo_simulate.o
-*.o
+.idea/
+cmake-build-debug/
+bin/

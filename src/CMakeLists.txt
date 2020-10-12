@@ -1,0 +1,9 @@
+add_executable(silo-newc
+        silo.c
+        silo_gate.c
+        silo_node.c
+        silo_nodeconf.c
+        silo_recycle.c
+        silo_signal.c
+        silo_simulate.c
+)
