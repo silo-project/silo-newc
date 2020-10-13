@@ -23,7 +23,7 @@ static pthread_t * thread;
 // =static
 inline static bool isReSize(NODEID);
 
-inline static void begin(void);
+inline static void * begin(void *);
 inline static void makelist(void);
 inline static int  setworker(int);
 
@@ -41,11 +41,11 @@ inline static int  setworker(int);
 // =static
 
 // ==simulate
-static void * simubegin(void * tid) {
-	NODEID i, c;
-
-	for (i = 0; (c = numberOfthread*i + *((int*)tid)) <= NextExecMaxID; i++)
-		NextExecList[c]->function(NextExecList[c]);
+inline static void * begin(void * tid) {
+	NODEID i, j;
+	
+	for (i = 0; (j = numberOfthread*i + *((int*)tid)) <= NextExecMaxID; i++)
+		NextExecList[j]->function(NextExecList[j]);
 	
 	pthread_exit(0);
 }
@@ -114,7 +114,7 @@ int Simulate(void) {
 	
 	for (i = 0; i < numberOfthread; i++) {
 		*p = i;
-		pthread_create(&thread[i], NULL, simubegin, (int*)p);
+		pthread_create(&thread[i], NULL, begin, (int*)p);
 	}
 	for (i = 0; i < numberOfthread; i++) {
 		pthread_join(thread[i], NULL);
