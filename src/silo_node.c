@@ -7,13 +7,27 @@
 #include "silo_node.h"
 #include "silo_recycle.h"
 
-static NODE ** NodePtrTable;
 
+// variables
+static NODE ** NodePtrTable;
 static NODEID NodeLastID;
 static DEFT_ADDR NodeTableSize;
 
 DEFT_ADDR NodeNumber;
 
+// declaration
+// static
+inline static bool isReSize(NODEID);
+
+// definition
+// static
+inline static bool isReSize(NODEID nodeid) {
+	return (nodeid >= NodeTableSize/sizeof(NODE*)) ? true : false;
+}
+
+
+// definition
+// public
 // initialization node management system
 int NodeInit(void) {
 	if (NodePtrTable != NULL)
@@ -28,7 +42,7 @@ int NodeInit(void) {
 	else
 		return 0;
 }
-int NodeReSizeTable() {
+static int NodeReSizeTable() {
 	NODEID i;
 	int n;
 	NODE ** p;
@@ -58,9 +72,8 @@ NODEID NodeCreate(void) {
 	nodeid = NodeGetID();
 	ptr = (NODE*)malloc(sizeof(NODE));
 	
-	if (nodeid >= NodeTableSize/sizeof(NODE*))
-		if (NodeReSizeTable())
-			return;
+	if (isReSize(nodeid))
+		NodeReSizeTable();
 	
 	ptr->storage = NULL;
 	NodePtrTable[nodeid] = ptr;

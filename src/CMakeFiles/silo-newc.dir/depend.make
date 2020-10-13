@@ -14,6 +14,7 @@ src/CMakeFiles/silo-newc.dir/silo_gate.c.o: src/silo_gate.c
 src/CMakeFiles/silo-newc.dir/silo_gate.c.o: src/silo_gate.h
 src/CMakeFiles/silo-newc.dir/silo_gate.c.o: src/silo_node.h
 src/CMakeFiles/silo-newc.dir/silo_gate.c.o: src/silo_signal.h
+src/CMakeFiles/silo-newc.dir/silo_gate.c.o: src/silo_simulate.h
 
 src/CMakeFiles/silo-newc.dir/silo_node.c.o: src/silo_define.h
 src/CMakeFiles/silo-newc.dir/silo_node.c.o: src/silo_node.c

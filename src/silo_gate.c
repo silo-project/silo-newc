@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "silo_node.h"
 #include "silo_gate.h"
+#include "silo_simulate.h"
 
 inline SIGNAL NodeReadInput(NODE * node, PORTID portid) {
 	return node->input[portid];

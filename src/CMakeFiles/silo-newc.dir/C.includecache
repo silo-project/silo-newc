@@ -6,31 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/silo.c
-stdio.h
--
-stdlib.h
--
-pthread.h
--
-silo_define.h
-/mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/silo_define.h
-silo_node.h
-/mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/silo_node.h
-silo_recycle.h
-/mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/silo_recycle.h
-silo_simulate.h
-/mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/silo_simulate.h
-silo_gate.h
-/mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/silo_gate.h
-
 /mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/silo_define.h
 stdbool.h
 -
-
-/mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/silo_gate.h
-silo_node.h
-/mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/silo_node.h
 
 /mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/silo_node.h
 silo_define.h
@@ -38,13 +16,21 @@ silo_define.h
 silo_signal.h
 /mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/silo_signal.h
 
-/mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/silo_recycle.h
-silo_define.h
-/mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/silo_define.h
-
 /mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/silo_signal.h
 silo_define.h
 /mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/silo_define.h
+
+/mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/silo_simulate.c
+stdio.h
+-
+stdlib.h
+-
+silo_define.h
+/mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/silo_define.h
+silo_node.h
+/mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/silo_node.h
+silo_simulate.h
+/mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/silo_simulate.h
 
 /mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/silo_simulate.h
 silo_define.h

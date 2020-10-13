@@ -16,16 +16,16 @@ extern "C" {
 #include "silo_define.h"
 #include "silo_signal.h"
 
-
+// types
 typedef struct nodestruct NODE;
 typedef struct sendformat SENDFORM;
 
 typedef struct nodestruct {
 	void (*function)(NODE*);
-	VALUE     * storage;
-	DEFT_WORD * attribute;
-	SIGNAL    * input;
-	SENDFORM  * output;
+	VALUE    * storage;
+	VALUE    * attribute;
+	SIGNAL   * input;
+	SENDFORM * output;
 } NODE;
 
 typedef struct sendformat {
@@ -41,7 +41,7 @@ typedef struct sendformat {
 
 // functions
 int NodeInit();
-int NodeReSizeTable(void);
+static int NodeReSizeTable(void);
 
 NODEID NodeCreate();
 void NodeDelete(NODEID);

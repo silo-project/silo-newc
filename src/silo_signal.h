@@ -8,7 +8,7 @@ extern "C" {
 #include "silo_define.h"
 
 
-// define of signal
+// definition(types)
 typedef SIGNALSIZE VALUE;
 typedef SIGNALSIZE STATE;
 
@@ -18,6 +18,8 @@ typedef struct signalstruct {
 	VALUE value;
 	STATE state;
 } SIGNAL;
+
+
 
 
 #endif
