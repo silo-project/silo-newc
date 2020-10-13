@@ -23,6 +23,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "silo_define.h"
 #include "silo_node.h"
+#include "silo_recycle.h"
+#include "silo_simulate.h"
 #include "silo_gate.h"
 
 int main(int argc, char ** argv) {

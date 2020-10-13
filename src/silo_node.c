@@ -100,7 +100,7 @@ NODEID NodeGetID() {
 NODEID NodeGetNumber() {
 	return NodeLastID;
 }
-inline NODE * NodeGetPtr(NODEID nodeid) {
+NODE * NodeGetPtr(NODEID nodeid) {
 	return NodePtrTable[nodeid];
 }
 

@@ -52,7 +52,7 @@ void NodeAddPtr(NODEID nodeid, NODE * node);
 
 NODEID NodeGetID();
 NODEID NodeGetNumber();
-inline NODE * NodeGetPtr(NODEID nodeid);
+NODE * NodeGetPtr(NODEID nodeid);
 
 
 

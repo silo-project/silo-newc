@@ -1,0 +1,5 @@
+/mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/CMakeFiles/rebuild_cache.dir
+/mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/CMakeFiles/edit_cache.dir
+/mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/CMakeFiles/rebuild_cache.dir
+/mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/CMakeFiles/edit_cache.dir
+/mnt/c/Users/icyse/OneDrive/문서/GitHub/silo-newc/src/CMakeFiles/silo-newc.dir

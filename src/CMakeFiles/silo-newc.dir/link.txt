@@ -1,0 +1,1 @@
+/usr/bin/cc -Wimplicit-function-declaration   CMakeFiles/silo-newc.dir/silo.c.o CMakeFiles/silo-newc.dir/silo_gate.c.o CMakeFiles/silo-newc.dir/silo_node.c.o CMakeFiles/silo-newc.dir/silo_nodeconf.c.o CMakeFiles/silo-newc.dir/silo_recycle.c.o CMakeFiles/silo-newc.dir/silo_signal.c.o CMakeFiles/silo-newc.dir/silo_simulate.c.o  -o silo-newc 
