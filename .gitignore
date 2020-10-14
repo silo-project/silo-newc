@@ -4,3 +4,4 @@ bin/
 CMakeCache.txt
 CMakeFiles/
 *.o
+Makefile
