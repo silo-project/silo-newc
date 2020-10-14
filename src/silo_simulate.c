@@ -117,7 +117,7 @@ void SimuSendInteger(SENDFORM sendform, DEFT_WORD integer) {
 	signal.state = -1;
 	signal.value = integer;
 	
-	SimuSend(sendform, signal);
+	SendSignal(sendform, signal);
 	return;
 }
 
