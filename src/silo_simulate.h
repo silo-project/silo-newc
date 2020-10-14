@@ -23,8 +23,8 @@ int SimuInit(void);
 int SimuReset(void);
 int Simulate(void);
 
-void SimuSend(SENDFORM sendform, SIGNAL signal);
-void SimuSendInteger(SENDFORM sendform, DEFT_WORD integer);
+void SendSignal(SENDFORM sendform, SIGNAL signal);
+void SendInteger(SENDFORM sendform, DEFT_WORD integer);
 
 
 // definition(functions)

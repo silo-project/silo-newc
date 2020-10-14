@@ -13,7 +13,7 @@
 // =static
 static NODE ** NextExecList;
 static char *  SentList;
-static NODEID  NextExecMax;
+static NODEID  NextExecMaxID;
 
 static int numberOfthread;
 static pthread_t * thread;
@@ -23,9 +23,7 @@ static pthread_t * thread;
 // =static
 inline static bool isReSize(NODEID);
 
-static void * beginSimulate(void *);
-
-inline static void sendSignal(SENDFORM, SIGNAL);
+inline static void * begin(void *);
 inline static void makelist(void);
 inline static int  setworker(int);
 
@@ -43,23 +41,14 @@ inline static int  setworker(int);
 // =static
 
 // ==simulate
-static void * beginSimulate(void * tid) {
+inline static void * begin(void * tid) {
 	NODEID i, j;
 	
-	for (i = 0; (j = numberOfthread*i + *((int*)tid)) <= NextExecMax; i++)
+	for (i = 0; (j = numberOfthread*i + *((int*)tid)) <= NextExecMaxID; i++)
 		NextExecList[j]->function(NextExecList[j]);
 	
 	pthread_exit(0);
 }
-
-inline static void sendSignal(SENDFORM d, SIGNAL s) {
-	NODE * n;
-	n = NodeGetPtr(d.nodeid);
-	n->input[d.portid] = s;
-	SentList[d.nodeid] = true;
-	return;
-}
-
 inline static void makelist() {
 	NODEID i, j;
 	
@@ -67,14 +56,10 @@ inline static void makelist() {
 		if (SentList[i])
 			NextExecList[i] = NodeGetPtr(i);
 	}
-	NextExecMax = i;
+	NextExecMaxID = i;
 	return;
 }
-
-
-
-// ==thread
-inline static int setThread(int n) {
+inline static int setthread(int n) {
 	pthread_t * p;
 	
 	numberOfthread = n;
@@ -89,11 +74,11 @@ inline static int setThread(int n) {
 }
 
 // =public
-// ==initialization Simulator
+// initialization Simulator
 int SimuInit(void) {
 	NextExecList = (NODE**)malloc(sizeof(NODE**)*NodeGetNumber());
 	SentList = (char*)malloc((long long)NodeGetNumber);
-	NextExecMax = 0;
+	NextExecMaxID = 0;
 	
 	numberOfthread = 1;
 	thread = (pthread_t*)malloc(sizeof(pthread_t));
@@ -104,10 +89,12 @@ int SimuInit(void) {
 		return 0;
 }
 
-
-
-void SendSignal(SENDFORM sendform, SIGNAL signal) {
-	sendSignal(sendform, signal);
+void SimuSend(SENDFORM sendform, SIGNAL signal) {
+	NODE * node;
+	SentList[sendform.nodeid] = true;
+	node = NodeGetPtr(sendform.nodeid);
+	
+	node->input[sendform.portid] = signal;
 	return;
 }
 void SimuSendInteger(SENDFORM sendform, DEFT_WORD integer) {
@@ -127,15 +114,15 @@ int Simulate(void) {
 	
 	for (i = 0; i < numberOfthread; i++) {
 		*p = i;
-		pthread_create(&thread[i], NULL, beginSimulate, (int*)p);
+		pthread_create(&thread[i], NULL, begin, (int*)p);
 	}
 	for (i = 0; i < numberOfthread; i++) {
 		pthread_join(thread[i], NULL);
 	}
 	
+	
 	makelist();
-	
-	
+
 	
 	return 0;
 }
