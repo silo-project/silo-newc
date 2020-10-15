@@ -27,6 +27,9 @@ void SimuMakeList(void);
 void SendSignal(SENDFORM sendform, SIGNAL signal);
 void SendInteger(SENDFORM sendform, DEFT_WORD integer);
 
+int SimuReSizeExec(DEFT_ADDR size);
+int SimuReSizeList(DEFT_ADDR size);
+
 
 // definition(functions)
 // =static
