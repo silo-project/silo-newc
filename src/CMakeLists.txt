@@ -6,4 +6,5 @@ add_executable(silo-newc
         silo_recycle.c
         silo_signal.c
         silo_simulate.c
+        silo_gate_vector.c
 )
