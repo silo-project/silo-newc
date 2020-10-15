@@ -32,7 +32,7 @@ void GateSHL(NODE * node);
 void GateSHR(NODE * node);
 */
 
-void GateMUX(NODE * node);
+void GateSTD_VEC(NODE * node);
 
 
 #endif

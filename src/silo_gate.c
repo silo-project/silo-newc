@@ -20,7 +20,7 @@ void GateADD(NODE * node) {
     c.value = a.value + b.value;
     c.state = -1;
 
-    SimuSend(node->output[0], c);
+    SendSignal(node->output[0], c);
     return;
 }
 void GateSUB(NODE * node) {
@@ -31,7 +31,7 @@ void GateSUB(NODE * node) {
     c.value = a.value - b.value;
     c.state = -1;
 
-    SimuSend(node->output[0], c);
+    SendSignal(node->output[0], c);
     return;
 }
 void GateMUL(NODE * node) {
@@ -42,7 +42,7 @@ void GateMUL(NODE * node) {
     c.value = a.value * b.value;
     c.state = -1;
 
-    SimuSend(node->output[0], c);
+    SendSignal(node->output[0], c);
     return;
 }
 void GateDIV(NODE * node) {
@@ -53,7 +53,7 @@ void GateDIV(NODE * node) {
 	c.value = a.value / b.value;
 	c.state = -1;
 
-	SimuSend(node->output[0], c);
+	SendSignal(node->output[0], c);
 	return;
 }
 void GateMOD(NODE * node) {
@@ -64,7 +64,7 @@ void GateMOD(NODE * node) {
     c.value = a.value % b.value;
     c.state = -1;
 
-    SimuSend(node->output[0], c);
+    SendSignal(node->output[0], c);
     return;
 }
 void GateAND(NODE * node) {
@@ -75,7 +75,7 @@ void GateAND(NODE * node) {
     c.value = a.value & b.value;
     c.state = -1;
 
-    SimuSend(node->output[0], c);
+    SendSignal(node->output[0], c);
     return;
 }
 
@@ -87,7 +87,7 @@ void GateIOR(NODE * node) {
     c.value = a.value | b.value;
     c.state = -1;
 
-    SimuSend(node->output[0], c);
+    SendSignal(node->output[0], c);
     return;
 }
 
@@ -99,7 +99,7 @@ void GateEOR(NODE * node) {
     c.value = a.value ^ b.value;
     c.state = -1;
 
-    SimuSend(node->output[0], c);
+    SendSignal(node->output[0], c);
     return;
 }
 
@@ -114,7 +114,7 @@ void GateROL(NODE * node) {
 	c.value = a.value << b.value;
 	c.state = -1;
 	
-	SimuSend(node->output[0], c);
+	SendSignal(node->output[0], c);
 	return;
 }
 void GateROR(NODE * node) {
@@ -126,7 +126,7 @@ void GateROR(NODE * node) {
 	c.value = a.value >> b.value;
 	c.state = -1;
 	
-	SimuSend(node->output[0], c);
+	SendSignal(node->output[0], c);
 	return;
 }
 
