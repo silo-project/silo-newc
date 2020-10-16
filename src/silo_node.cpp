@@ -65,35 +65,25 @@ static int NodeReSizeTable() {
 
 
 // create empty node
-NODEID NodeCreate(void) {
-	NODEID nodeid;
-	NODE * ptr;
+nodeclass::nodeclass() {
+
+	this->nodeid = NodeGetID();
 	
-	nodeid = NodeGetID();
-	ptr = (NODE*)malloc(sizeof(NODE));
-	
-	if (isReSize(nodeid))
+	if (isReSize(this->nodeid))
 		NodeReSizeTable();
 	
-	ptr->storage = NULL;
-	NodePtrTable[nodeid] = ptr;
-	
-	return nodeid;
+	this->storage = nullptr;
+	NodePtrTable[this->nodeid] = this;
 }
 
 // delete node
-void NodeDelete(NODEID nodeid) {
-	NODE * ptr = NodeGetPtr(nodeid);
-	
-	if (ptr->storage != NULL)
-		free(ptr->storage);
-	free(ptr);
-	
-	return;
+nodeclass::~nodeclass() {
+	if (this->storage != nullptr)
+		free(this->storage);
 }
 
 // recycle node
-void NodeRecycle(NODEID nodeid) {
+void nodeclass::Recycle() {
 	RecyPush(nodeid);
 	return;
 }
@@ -117,7 +107,6 @@ NODE * NodeGetPtr(NODEID nodeid) {
 	return NodePtrTable[nodeid];
 }
 
-
 void NodeSetOutput(SENDFORM dst, SENDFORM src) {
 	NODE * nptr;
 	SENDFORM * sptr;
@@ -126,8 +115,6 @@ void NodeSetOutput(SENDFORM dst, SENDFORM src) {
 	sptr = nptr->output;
 	
 	sptr[dst.portid] = src;
-	
-	return;
 }
 
 #endif

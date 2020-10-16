@@ -18,17 +18,6 @@ extern "C" {
 
 // Strg is not Strogg, but storage
 
-int NodeSetMemory(NODEID nodeid, DEFT_ADDR size);
-
-void NodeSetOfsAttr(NODEID nodeid, DEFT_ADDR offset);
-void NodeSetOfsInpt(NODEID nodeid, DEFT_ADDR offset);
-void NodeSetOfsOupt(NODEID nodeid, DEFT_ADDR offset);
-
-
-
-void NodeSetType(NODEID nodeid, void (*fn)(NODE*));
-void NodeSetAttr(NODEID nodeid, DEFT_WORD attr, DEFT_ADDR index);
-void NodeSetAttrs(NODEID nodeid, DEFT_WORD * attr, DEFT_ADDR limit);
 // input is not able
 // storage is not able
 void NodeSetOupt(SENDFORM dst, SENDFORM src);

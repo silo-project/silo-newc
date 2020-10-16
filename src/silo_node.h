@@ -6,10 +6,6 @@
 	Description: define node-structure, send-form
 */
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #ifndef SILO_NODE_HEAD
 #define SILO_NODE_HEAD
 
@@ -17,16 +13,28 @@ extern "C" {
 #include "silo_signal.h"
 
 // types
-typedef struct nodestruct NODE;
 typedef struct sendformat SENDFORM;
+typedef class nodeclass NODE;
 
-typedef struct nodestruct {
-	void (*function)(NODE*);
-	VALUE    * storage;
-	VALUE    * attribute;
-	SIGNAL   * input;
-	SENDFORM * output;
-} NODE;
+class nodeclass {
+public:
+	void (*function)(NODE*) = nullptr;
+	VALUE    * storage      = nullptr;
+	VALUE    * attribute    = nullptr;
+	SIGNAL   * input        = nullptr;
+	SENDFORM * output       = nullptr;
+	NODEID nodeid;
+	nodeclass();
+	~nodeclass();
+	void Recycle();
+    int SetMemory(DEFT_ADDR size);
+    void SetOfsAttr(DEFT_ADDR offset);
+    void SetOfsInpt(DEFT_ADDR offset);
+    void SetOfsOupt(DEFT_ADDR offset);
+    void SetType(void (*fn)(NODE*));
+    void SetAttr(DEFT_WORD attr, DEFT_ADDR index);
+    void SetAttrs(const DEFT_WORD * attr, DEFT_ADDR limit);
+};
 
 typedef struct sendformat {
 	NODEID nodeid;
@@ -59,12 +67,4 @@ NODE * NodeGetPtr(NODEID nodeid);
 
 
 
-
-
-
-
-#endif
-
-#ifdef __cplusplus
-}
 #endif

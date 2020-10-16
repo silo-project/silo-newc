@@ -1,10 +1,10 @@
 add_executable(silo-newc
-        silo.c
-        silo_gate.c
-        silo_node.c
-        silo_nodeconf.c
-        silo_recycle.c
-        silo_signal.c
-        silo_simulate.c
-        silo_gate_vector.c
+        silo.cpp
+        silo_gate.cpp
+        silo_node.cpp
+        silo_nodeconf.cpp
+        silo_recycle.cpp
+        silo_signal.cpp
+        silo_simulate.cpp
+        silo_gate_vector.cpp
 )

@@ -27,11 +27,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "silo_recycle.h"
 #include "silo_simulate.h"
 #include "silo_gate.h"
-
+#include "silo_nodeconf.h"
 
 
 int main(int argc, char ** argv) {
-	NODEID n;
+	NODE * n;
 	NODE * node;
 	SIGNAL x, y, z;
 	SENDFORM d, s, t;
@@ -53,22 +53,22 @@ int main(int argc, char ** argv) {
 	SimuReSizeList(BASICMEM);
 	
 	for (i = 0; i < 10; i++) {
-		n = NodeCreate();
-		NodeSetMemory(n, 64);
-		NodeSetOfsAttr(n, 0);
-		NodeSetOfsInpt(n, 2);
-		NodeSetOfsOupt(n, 32);
-		NodeSetAttr(n, n, 0);
-		NodeSetAttr(n, 10, 1);
-		NodeSetType(n, GateSTD_VEC);
+		n = new NODE();
+		n->SetMemory(64);
+		n->SetOfsAttr(0);
+        n->SetOfsInpt(2);
+        n->SetOfsOupt(32);
+        n->SetAttr(n->nodeid, 0);
+        n->SetAttr(10, 1);
+        n->SetType(GateSTD_VEC);
 		for (j = 0; j < 20; j++) {
-			d.nodeid = n;
-			s.nodeid = n;
+			d.nodeid = n->nodeid;
+			s.nodeid = n->nodeid;
 			s.portid = 2;
 			NodeSetOupt(d, s);
-			x.value = 12+n;
-			y.value = 34+n;
-			t.nodeid = n;
+			x.value = 12+n->nodeid;
+			y.value = 34+n->nodeid;
+			t.nodeid = n->nodeid;
 			t.portid = j++;
 			SendSignal(t, x);
 			t.portid = j;
@@ -80,7 +80,7 @@ int main(int argc, char ** argv) {
 	status = Simulate();
 	
 	sleep(1);
-	
+
 	for (i = 0; node = NodeGetPtr(i); i++) {
 		printf("Nodeid : %d, Result : %d\n", i, node->input[2]);
 	}

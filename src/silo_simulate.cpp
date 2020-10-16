@@ -92,7 +92,7 @@ inline static int setThread(int n) {
 	pthread_t * p;
 	
 	numberOfthread = n;
-	p = realloc(thread, sizeof(pthread_t)*n);
+	p = (pthread_t *)(realloc(thread, sizeof(pthread_t) * n));
 	
 	if (p == NULL)
 		return -1;
@@ -138,7 +138,7 @@ int SimuReSizeExec(DEFT_ADDR size) {
 	if (p == NULL)
 		return -1;
 	else {
-		NextExecList = p;
+		NextExecList = (NODE **)(p);
 		return 0;
 	}
 }
@@ -149,7 +149,7 @@ int SimuReSizeList(DEFT_ADDR size) {
 	if (p == NULL)
 		return -1;
 	else {
-		SentList = p;
+		SentList = (char *)p;
 		return 0;
 	}
 }

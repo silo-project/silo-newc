@@ -29,7 +29,7 @@ int RecyInit() {
 		free(idStack);
 	
 	stackSize = BASICMEM;
-	idStack = malloc(sizeof(NODEID) * stackSize);
+	idStack = (NODEID *)(malloc(sizeof(NODEID) * stackSize));
 	
 	gcOfs = 20;
 	isStackFull = false;
@@ -98,7 +98,7 @@ void RecySetgcOfs(NODEID value) {
 	return;
 }
 void RecyStartgc(NODEID nodeid) {
-	NodeDelete(nodeid);
+	delete NodeGetPtr(nodeid);
 	return;
 }
 
