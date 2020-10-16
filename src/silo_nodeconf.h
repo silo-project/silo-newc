@@ -10,7 +10,7 @@
 #ifndef SILO_NODECONF_HEAD
 #define SILO_NODECONF_HEAD
 
-#include <stdlib.h>
+#include <cstdlib>
 #include "silo_define.h"
 
 // Strg is not Strogg, but storage

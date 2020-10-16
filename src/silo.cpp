@@ -79,8 +79,8 @@ int main(int argc, char **argv) {
 
     sleep(1);
 
-    for (i = 0; node = NodeGetPtr(i); i++) {
-        printf("Nodeid : %d, Result : %d\n", i, node->input[2]);
+    for (i = 0; i < NodeGetNumber(); i++) {
+        printf("Nodeid : %d, Result : %d\n", i, NodeGetPtr(i)->input[2]);
     }
 
     return 0;

@@ -1,7 +1,7 @@
 #ifndef SILO_GATEVECTOR_CODE
 #define SILO_GATEVECTOR_CODE
 
-#include <stdio.h>
+#include <cstdio>
 #include "silo_node.h"
 #include "silo_gate.h"
 #include "silo_simulate.h"
@@ -17,7 +17,7 @@ void GateSTD_VEC(NODE * node) {
 		DEFT_WORD v[2];
 	};
 	
-	uniwrd wd;
+	uniwrd wd{};
 	
 	inst = node->attribute[0];
 	
@@ -55,7 +55,6 @@ void GateSTD_VEC(NODE * node) {
 		}
 		SendSignal(node->output[i], z);
 	}
-	return;
-}
+	}
 
 #endif

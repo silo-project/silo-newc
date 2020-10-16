@@ -1,9 +1,9 @@
 #ifndef SILO_RECYCLE_CODE
 #define SILO_RECYCLE_CODE
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
+#include <cstdio>
+#include <cstdlib>
+
 #include "silo_define.h"
 #include "silo_node.h"
 #include "silo_recycle.h"
@@ -25,7 +25,7 @@ static NODEID gcOfs;
 
 // initialization recycle system
 int RecyInit() {
-	if (idStack != NULL)
+	if (idStack != nullptr)
 		free(idStack);
 	
 	stackSize = BASICMEM;
@@ -35,7 +35,7 @@ int RecyInit() {
 	isStackFull = false;
 	isStackSign = false;
 	
-	if (idStack == NULL)
+	if (idStack == nullptr)
 		return 1;
 	else
 		return 0;
@@ -50,7 +50,7 @@ int RecyReSizeStack() {
 		
 	p = (NODEID*)realloc(idStack, stackSize);
 	
-	if (p == NULL)
+	if (p == nullptr)
 		return 1;
 	else {
 		idStack = p;
@@ -60,10 +60,7 @@ int RecyReSizeStack() {
 
 
 int RecyStatus(void) {
-	if (stackPtr != 0)
-		return true;
-	else
-		return false;
+    return stackPtr != 0;
 }
 
 
@@ -77,8 +74,6 @@ void RecyPush(NODEID nodeid) {
 	
 	if (stackPtr > gcOfs-1 )
 		RecyStartgc(idStack[stackPtr-gcOfs]);
-	
-	return;
 }
 NODEID RecyPull(void) {
 	NODEID nodeid;
@@ -95,11 +90,9 @@ NODEID RecyPull(void) {
 // garbage collector
 void RecySetgcOfs(NODEID value) {
 	gcOfs = value;
-	return;
 }
 void RecyStartgc(NODEID nodeid) {
 	delete NodeGetPtr(nodeid);
-	return;
 }
 
 

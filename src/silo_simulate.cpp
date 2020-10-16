@@ -68,7 +68,7 @@ static void * beginSimulate(const int * tid, int * finishedthreadcount) {
 	mtx.lock();
     (*finishedthreadcount)++;
 	mtx.unlock();
-	return (void *)NULL;
+	return (void *)nullptr;
 }
 
 inline static void sendSignal(SENDFORM d, SIGNAL s) {
@@ -76,7 +76,6 @@ inline static void sendSignal(SENDFORM d, SIGNAL s) {
 	n = NodeGetPtr(d.nodeid);
 	n->input[d.portid] = s;
 	SentList[d.nodeid] = true;
-	return;
 }
 
 inline static void makelist() {
@@ -87,7 +86,6 @@ inline static void makelist() {
 			NextExecList[i] = NodeGetPtr(i);
 	}
 	NextExecMax = i;
-	return;
 }
 
 
@@ -97,12 +95,12 @@ inline static int setThread(int n) {
     numberOfthread = n;
     auto ** p = static_cast<class thread **>(realloc(threads, sizeof(thread*) * n));
 
-	return p == NULL ? -1 : 0;
+	return p == nullptr ? -1 : 0;
 }
 
 // =public
 // ==initialization Simulator
-int SimuInit(void) {
+int SimuInit() {
 	NextExecList = (NODE**)malloc(sizeof(NODE**)*NodeGetNumber());
 	SentList = (char*)malloc((long long)NodeGetNumber());
 	NextExecMax = 0;
@@ -110,7 +108,7 @@ int SimuInit(void) {
 	numberOfthread = 16;
 	threads = (thread **)malloc(sizeof(thread*)*numberOfthread);
 	
-	if ((NextExecList == NULL) || (SentList == NULL))
+	if ((NextExecList == nullptr) || (SentList == nullptr))
 		return 1;
 	else
 		return 0;
@@ -119,7 +117,7 @@ int SimuReSizeExec(DEFT_ADDR size) {
 	void * p;
 	p = realloc(NextExecList, size);
 	
-	if (p == NULL)
+	if (p == nullptr)
 		return -1;
 	else {
 		NextExecList = (NODE **)(p);
@@ -130,7 +128,7 @@ int SimuReSizeList(DEFT_ADDR size) {
 	void * p;
 	p = realloc(SentList, size);
 	
-	if (p == NULL)
+	if (p == nullptr)
 		return -1;
 	else {
 		SentList = (char *)p;
@@ -142,8 +140,8 @@ int SimuReSizeList(DEFT_ADDR size) {
 
 void SendSignal(SENDFORM sendform, SIGNAL signal) {
 	sendSignal(sendform, signal);
-	return;
 }
+
 void SimuSendInteger(SENDFORM sendform, DEFT_WORD integer) {
 	NODE * node;
 	SIGNAL signal;
@@ -152,10 +150,9 @@ void SimuSendInteger(SENDFORM sendform, DEFT_WORD integer) {
 	signal.value = integer;
 	
 	SendSignal(sendform, signal);
-	return;
 }
 
-int Simulate(void) {
+int Simulate() {
 	int i; // index of thread
 	
 	int tidarr[numberOfthread];
@@ -165,7 +162,7 @@ int Simulate(void) {
 	for (i = 0; i < numberOfthread; i++) {
 		tidarr[i] = i;
 		threads[i] = new thread(beginSimulate, &(tidarr[i]), &finishedthreadcount);
-		if (threads[i] == NULL) {
+		if (threads[i] == nullptr) {
 			printf("Thread Create Error! : %p\n", threads[i]);
 			return -1;
 		}
@@ -180,9 +177,8 @@ int Simulate(void) {
 	return 0;
 }
 
-void SimuMakeList(void) {
+void SimuMakeList() {
 	makelist();
-	return;
 }
 
 

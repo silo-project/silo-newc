@@ -1,7 +1,7 @@
 #ifndef SILO_GATE_CODE
 #define SILO_GATE_CODE
 
-#include <stdio.h>
+#include <cstdio>
 #include "silo_node.h"
 #include "silo_gate.h"
 #include "silo_simulate.h"
@@ -21,7 +21,6 @@ void GateADD(NODE * node) {
     c.state = -1;
 
     SendSignal(node->output[0], c);
-    return;
 }
 void GateSUB(NODE * node) {
     SIGNAL a, b, c;
@@ -32,7 +31,6 @@ void GateSUB(NODE * node) {
     c.state = -1;
 
     SendSignal(node->output[0], c);
-    return;
 }
 void GateMUL(NODE * node) {
     SIGNAL a, b, c;
@@ -43,7 +41,6 @@ void GateMUL(NODE * node) {
     c.state = -1;
 
     SendSignal(node->output[0], c);
-    return;
 }
 void GateDIV(NODE * node) {
 	SIGNAL a, b, c;
@@ -54,7 +51,6 @@ void GateDIV(NODE * node) {
 	c.state = -1;
 
 	SendSignal(node->output[0], c);
-	return;
 }
 void GateMOD(NODE * node) {
     SIGNAL a, b, c;
@@ -65,7 +61,6 @@ void GateMOD(NODE * node) {
     c.state = -1;
 
     SendSignal(node->output[0], c);
-    return;
 }
 void GateAND(NODE * node) {
     SIGNAL a, b, c;
@@ -76,7 +71,6 @@ void GateAND(NODE * node) {
     c.state = -1;
 
     SendSignal(node->output[0], c);
-    return;
 }
 
 void GateIOR(NODE * node) {
@@ -88,7 +82,6 @@ void GateIOR(NODE * node) {
     c.state = -1;
 
     SendSignal(node->output[0], c);
-    return;
 }
 
 void GateEOR(NODE * node) {
@@ -100,7 +93,6 @@ void GateEOR(NODE * node) {
     c.state = -1;
 
     SendSignal(node->output[0], c);
-    return;
 }
 
 
@@ -115,7 +107,6 @@ void GateROL(NODE * node) {
 	c.state = -1;
 	
 	SendSignal(node->output[0], c);
-	return;
 }
 void GateROR(NODE * node) {
 	SIGNAL a, b, c;
@@ -127,7 +118,6 @@ void GateROR(NODE * node) {
 	c.state = -1;
 	
 	SendSignal(node->output[0], c);
-	return;
 }
 
 void GateMUX(NODE * node) {

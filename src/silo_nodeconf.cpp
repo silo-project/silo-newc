@@ -9,22 +9,22 @@
 #ifndef SILO_NODECONF_CODE
 #define SILO_NODECONF_CODE
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include "silo_define.h"
 #include "silo_node.h"
 #include "silo_nodeconf.h"
 
 int NODE::SetMemory(DEFT_ADDR size) {
 	this->storage = (VALUE *) malloc(sizeof(DEFT_WORD) * size);
-	if (this->storage == NULL)
+	if (this->storage == nullptr)
 		return -1;
 	else
 		return 0;
 }
 int NODE::ReSizeMem(DEFT_ADDR size) {
 	auto n = (VALUE *) malloc(sizeof(DEFT_WORD) * size);
-	if (n == NULL)
+	if (n == nullptr)
 		return -1;
 	else {
 		this->storage = n;
@@ -58,7 +58,7 @@ void NODE::SetOupts(SENDFORM * src, DEFT_ADDR limit) {
 }
 
 
-void NODE::SetAttrs(DEFT_WORD * attr, DEFT_ADDR limit) {
+void NODE::SetAttrs(const DEFT_WORD * attr, DEFT_ADDR limit) {
 	DEFT_ADDR i;
 	
 	for (i = 0; i < limit; i++)

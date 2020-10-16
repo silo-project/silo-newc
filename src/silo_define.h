@@ -13,7 +13,7 @@ extern "C" {
 #ifndef SILO_DEFINE_HEAD
 #define SILO_DEFINE_HEAD
 
-#include <stdbool.h>
+
 
 // default processing size
 #define SILO_WORD int

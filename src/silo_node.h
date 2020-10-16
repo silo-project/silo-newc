@@ -38,7 +38,7 @@ public:
     void SetType(void (*function)(NODE*));
 
     void SetAttr(DEFT_WORD attr, DEFT_ADDR index);
-    void SetAttrs(DEFT_WORD * attr, DEFT_ADDR limit);
+    void SetAttrs(const DEFT_WORD * attr, DEFT_ADDR limit);
 
     void SetOupt(PORTID dst, SENDFORM src);
     void SetOupts(SENDFORM * src, DEFT_ADDR limit);

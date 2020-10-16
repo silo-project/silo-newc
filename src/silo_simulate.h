@@ -15,11 +15,11 @@
 
 // declaration(functions)
 // =public
-int SimuInit(void);
-int SimuReset(void);
-int Simulate(void);
+int SimuInit();
+int SimuReset();
+int Simulate();
 
-void SimuMakeList(void);
+void SimuMakeList();
 void SendSignal(SENDFORM sendform, SIGNAL signal);
 void SendInteger(SENDFORM sendform, DEFT_WORD integer);
 
