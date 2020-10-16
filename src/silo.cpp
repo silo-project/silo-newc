@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
             d.nodeid = n->nodeid;
             s.nodeid = n->nodeid;
             s.portid = 2;
-            NodeSetOupt(d, s);
+            n->SetOupt(d.portid, s);
             x.value = 12 + n->nodeid;
             y.value = 34 + n->nodeid;
             t.nodeid = n->nodeid;

@@ -36,11 +36,13 @@ public:
     void SetOfsOupt(DEFT_ADDR offset);
     
     void SetType(void (*function)(NODE*));
+
     void SetAttr(DEFT_WORD attr, DEFT_ADDR index);
-    void SetOupt(SENDFORM dst, SENDFORM src);
-    
     void SetAttrs(DEFT_WORD * attr, DEFT_ADDR limit);
-    void SetOupts(NODEID nodeid, SENDFORM * src, DEFT_ADDR limit);
+
+    void SetOupt(PORTID dst, SENDFORM src);
+    void SetOupts(SENDFORM * src, DEFT_ADDR limit);
+
 };
 
 typedef struct sendformat {

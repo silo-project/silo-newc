@@ -23,8 +23,7 @@ int NODE::SetMemory(DEFT_ADDR size) {
 		return 0;
 }
 int NODE::ReSizeMem(DEFT_ADDR size) {
-	NODE * n = this->storage;
-	n = (VALUE *) malloc(sizeof(DEFT_WORD) * size);
+	auto n = (VALUE *) malloc(sizeof(DEFT_WORD) * size);
 	if (n == NULL)
 		return -1;
 	else {
@@ -38,20 +37,26 @@ void NODE::SetOfsInpt(DEFT_ADDR offset) { this->input     = (SIGNAL*)(this->stor
 void NODE::SetOfsOupt(DEFT_ADDR offset) { this->output    = (SENDFORM*)(this->storage+offset); }
 
 // node configuration
-void NODE::SetType(void (*function)(NODE*)) {
-	this->function = function;
+void NODE::SetType(void (* _function)(NODE*)) {
+	this->function = _function;
 }
 void NODE::SetAttr(DEFT_WORD attr, DEFT_ADDR index) {
 	this->attribute[index] = attr;
 }
 
-void NODE::NodeSetOupt(SENDFORM dst, SENDFORM src) {
-	NODE * node;
-	NODEID nodeid;
-	nodeid = dst.nodeid;
-	node = NodeGetPtr(nodeid);
-	node->output[dst.portid] = src;
+void NODE::SetOupt(PORTID dst_portid, SENDFORM src) {
+	this->output[dst_portid] = src;
 }
+
+
+void NODE::SetOupts(SENDFORM * src, DEFT_ADDR limit) {
+    DEFT_ADDR i;
+
+    for (i = 0; i < limit - 1; i++) {
+        this->output[i] = *src;
+    }
+}
+
 
 void NODE::SetAttrs(DEFT_WORD * attr, DEFT_ADDR limit) {
 	DEFT_ADDR i;
@@ -59,17 +64,5 @@ void NODE::SetAttrs(DEFT_WORD * attr, DEFT_ADDR limit) {
 	for (i = 0; i < limit; i++)
 		this->attribute[i] = attr[i];
 }
-
-
-void NODE::SetOupts(NODEID nodeid, SENDFORM * src, DEFT_ADDR limit) {
-	NODE * node;
-	DEFT_ADDR i;
-	
-	for (i = 0; i < limit-1; i++) {
-		node = NodeGetPtr(nodeid);
-		node->output[i] = *src;
-	}
-}
-
 
 #endif

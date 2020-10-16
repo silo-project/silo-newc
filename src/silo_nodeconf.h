@@ -15,11 +15,6 @@
 
 // Strg is not Strogg, but storage
 
-// input is not able
-// storage is not able
-void NodeSetOupt(SENDFORM dst, SENDFORM src);
-void NodeSetOupts(NODEID nodeid, SENDFORM * src, DEFT_ADDR limit);
-
 
 void NodeSetMemStrg(NODE * node, int long size);
 
