@@ -24,7 +24,7 @@ void GateEOR(NODE * node);
 void GateROL(NODE * node);
 void GateROR(NODE * node);
 /*
-void GateMULS(NODE * node);
+void GateMULC(NODE * node);
 void GateDIVS(NODE * node);
 void GateMODS(NODE * node);
 void GateSAR(NODE * node);
