@@ -22,57 +22,57 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "silo_define.h"
 #include "silo_node.h"
-#include "silo_recycle.h"
+#include "silo_noderecycle.h"
 #include "silo_simulate.h"
 #include "silo_gate.h"
-#include "silo_nodeconf.h"
+#include "silo_wirerecycle.h"
 
 
 int main(int argc, char **argv) {
-    NODE *n;
+    NODE *n, *m;
     NODE *node;
-    SIGNAL x, y, z;
-    SENDFORM d, s, t;
+    WIRE *x, *y, *z, *w;
     int i, j;
     int status;
 
     int initstatnode = NodeInit();
-    int initstatrecy = RecyInit();
+    int initstatnoderecy = NodeRecyInit();
+    int initstatwirerecy = WireRecyInit();
     int initstatsimu = SimuInit();
 
-    if (initstatnode || initstatrecy || initstatsimu)
+    if (initstatnode || initstatwirerecy || initstatnoderecy || initstatsimu)
         return -1;
 
-    d.portid = 0;
-    x.state = -1;
-    y.state = -1;
-
-    SimuReSizeExec(BASICMEM);
     SimuReSizeList(BASICMEM);
 
-    for (i = 0; i < 10; i++) {
-        n = new NODE();
-        n->SetMemory(64);
-        n->SetOfsAttr(0);
-        n->SetOfsInpt(2);
-        n->SetOfsOupt(32);
-        n->SetAttr(n->nodeid, 0);
-        n->SetAttr(10, 1);
-        n->SetType(GateSTD_VEC);
-        for (j = 0; j < 20; j++) {
-            d.nodeid = n->nodeid;
-            s.nodeid = n->nodeid;
-            s.portid = 2;
-            n->SetOupt(d.portid, s);
-            x.value = 12 + n->nodeid;
-            y.value = 34 + n->nodeid;
-            t.nodeid = n->nodeid;
-            t.portid = j++;
-            SendSignal(t, x);
-            t.portid = j;
-            SendSignal(t, y);
-        }
-    }
+    n = new NODE();
+    n->SetMemory(64);
+    n->SetAttr(10, 1);
+    n->SetType(Gate::GateDIV);
+
+    m = new NODE();
+    m->SetMemory(64);
+    m->SetAttr(10, 1);
+    m->SetType(Gate::GateADD);
+
+    x = new WIRE();
+    y = new WIRE();
+    z = new WIRE();
+    w = new WIRE();
+
+    x->signal.state = -1;
+    x->signal.value = 24;
+    y->signal.state = -1;
+    y->signal.value = 4;
+
+    n->SetInpt(0, x->wireid);
+    n->SetInpt(1, y->wireid);
+    n->SetOupt(2, z->wireid);
+
+    m->SetInpt(0, z->wireid);
+    m->SetInpt(1, y->wireid);
+    m->SetOupt(2, w->wireid);
+
     SimuMakeList();
 
     status = Simulate();
@@ -80,7 +80,7 @@ int main(int argc, char **argv) {
     sleep(1);
 
     for (i = 0; i < NodeGetNumber(); i++) {
-        printf("Nodeid : %d, Result : %d\n", i, NodeGetPtr(i)->input[2]);
+        printf("Nodeid : %d, Result : %d\n", i, n->portmap[3]->wire->signal); // 1, 10 Required
     }
 
     return 0;

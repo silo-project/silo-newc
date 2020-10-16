@@ -6,6 +6,8 @@
 #include "silo_gate.h"
 #include "silo_simulate.h"
 
+using SIGNAL = WIRE::SIGNAL;
+
 void GateSTD_VEC(NODE * node) {
 	SIGNAL x, y, z; // x <inst> y = z
 	PORTID i;
@@ -19,12 +21,12 @@ void GateSTD_VEC(NODE * node) {
 	
 	uniwrd wd{};
 	
-	inst = node->attribute[0];
+	inst = node->attributemap[0];
 	
 	z.state = -1;
-	for (i = 0; i <= node->attribute[1]; i++) {
-		x = node->input[i];
-		y = node->input[i];
+	for (i = 0; i <= node->attributemap[1]; i++) {
+		x = node->ReadInput(i);
+		y = node->ReadInput(i);
 		switch (inst)
 		{
 		case 0: z.value = x.value +  y.value; break;
@@ -53,7 +55,7 @@ void GateSTD_VEC(NODE * node) {
 			return;
 			break;
 		}
-		SendSignal(node->output[i], z);
+		SendSignal(node, 2, z);
 	}
 	}
 

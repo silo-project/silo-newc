@@ -3,6 +3,7 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <vector>
 #include <thread>
 #include <mutex>
 #include <condition_variable>
@@ -10,13 +11,14 @@
 
 #include "silo_define.h"
 #include "silo_node.h"
+#include "silo_wire.h"
 #include "silo_simulate.h"
 
 using std::thread;
 
 // declaration(variables)
 // =static
-static NODE ** NextExecList;
+static std::vector<NODE *> * NextExecVector;
 static char *  SentList;
 static NODEID  NextExecMax;
 
@@ -30,7 +32,7 @@ inline static bool isReSize(NODEID);
 
 static void * beginSimulate(const int *, int *);
 
-inline static void sendSignal(SENDFORM, SIGNAL);
+//inline static void sendSignal(SENDFORM, SIGNAL);
 inline static void makelist();
 inline static int  setThread(int);
 
@@ -60,8 +62,8 @@ static void * beginSimulate(const int * tid, int * finishedthreadcount) {
 	printf("tid : %d\n", *tid);
 	for (i = 0; (j = numberOfthread*i + *tid) <= NextExecMax; i++) {
 		printf("j : %d\n", j);
-		node = NextExecList[j];
-		node->function(NextExecList[j]);
+		node = NextExecVector->at(j);
+		node->function(node);
 	}
 	
 	printf("end of simulate(%d)\n", *((int*)tid));
@@ -71,11 +73,9 @@ static void * beginSimulate(const int * tid, int * finishedthreadcount) {
 	return (void *)nullptr;
 }
 
-inline static void sendSignal(SENDFORM d, SIGNAL s) {
-	NODE * n;
-	n = NodeGetPtr(d.nodeid);
-	n->input[d.portid] = s;
-	SentList[d.nodeid] = true;
+void SendSignal(NODE * n, WIREID d, WIRE::SIGNAL s) {
+    WireGetPtr(d)->signal = s;
+	SentList[n->nodeid] = true;
 }
 
 inline static void makelist() {
@@ -83,7 +83,7 @@ inline static void makelist() {
 	
 	for (i = 0, j = NodeGetNumber(); i < j; i++) {
 		if (SentList[i])
-			NextExecList[i] = NodeGetPtr(i);
+            (*NextExecVector)[i] = NodeGetPtr(i);
 	}
 	NextExecMax = i;
 }
@@ -101,29 +101,19 @@ inline static int setThread(int n) {
 // =public
 // ==initialization Simulator
 int SimuInit() {
-	NextExecList = (NODE**)malloc(sizeof(NODE**)*NodeGetNumber());
+    NextExecVector = new std::vector<NODE *>();
 	SentList = (char*)malloc((long long)NodeGetNumber());
 	NextExecMax = 0;
 	
 	numberOfthread = 16;
 	threads = (thread **)malloc(sizeof(thread*)*numberOfthread);
 	
-	if ((NextExecList == nullptr) || (SentList == nullptr))
+	if (SentList == nullptr)
 		return 1;
 	else
 		return 0;
 }
-int SimuReSizeExec(DEFT_ADDR size) {
-	void * p;
-	p = realloc(NextExecList, size);
-	
-	if (p == nullptr)
-		return -1;
-	else {
-		NextExecList = (NODE **)(p);
-		return 0;
-	}
-}
+
 int SimuReSizeList(DEFT_ADDR size) {
 	void * p;
 	p = realloc(SentList, size);
@@ -136,13 +126,7 @@ int SimuReSizeList(DEFT_ADDR size) {
 	}
 }
 
-
-
-void SendSignal(SENDFORM sendform, SIGNAL signal) {
-	sendSignal(sendform, signal);
-}
-
-void SimuSendInteger(SENDFORM sendform, DEFT_WORD integer) {
+/*void SimuSendInteger(SENDFORM sendform, DEFT_WORD integer) {
 	NODE * node;
 	SIGNAL signal;
 	
@@ -150,7 +134,7 @@ void SimuSendInteger(SENDFORM sendform, DEFT_WORD integer) {
 	signal.value = integer;
 	
 	SendSignal(sendform, signal);
-}
+}*/
 
 int Simulate() {
 	int i; // index of thread

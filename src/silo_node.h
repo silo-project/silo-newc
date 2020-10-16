@@ -9,8 +9,11 @@
 #ifndef SILO_NODE_HEAD
 #define SILO_NODE_HEAD
 
+#include <map>
+
 #include "silo_define.h"
-#include "silo_signal.h"
+#include "silo_wire.h"
+#include "silo_port.h"
 
 // types
 typedef struct sendformat SENDFORM;
@@ -20,29 +23,28 @@ class nodeclass {
 public:
 	void (*function)(NODE*) = nullptr;
 	VALUE    * storage      = nullptr;
-	VALUE    * attribute    = nullptr;
-	SIGNAL   * input        = nullptr;
-	SENDFORM * output       = nullptr;
+	std::map<DEFT_ADDR, DEFT_WORD> attributemap;
+	std::map<PORTID, PORT*> portmap;
 	
 	NODEID nodeid;
+
 	nodeclass();
 	~nodeclass();
+
 	void Recycle();
 	
     int  SetMemory (DEFT_ADDR size);
     int  ReSizeMem (DEFT_ADDR size);
-    void SetOfsAttr(DEFT_ADDR offset);
-    void SetOfsInpt(DEFT_ADDR offset);
-    void SetOfsOupt(DEFT_ADDR offset);
     
     void SetType(void (*function)(NODE*));
 
     void SetAttr(DEFT_WORD attr, DEFT_ADDR index);
-    void SetAttrs(const DEFT_WORD * attr, DEFT_ADDR limit);
+    //void SetAttrs(const DEFT_WORD * attr, DEFT_ADDR limit);
 
-    void SetOupt(PORTID dst, SENDFORM src);
-    void SetOupts(SENDFORM * src, DEFT_ADDR limit);
+    void SetOupt(PORTID dst, WIREID src);
+    void SetInpt(PORTID dst, WIREID src);
 
+    WIRE::SIGNAL ReadInput(PORTID portid);
 };
 
 typedef struct sendformat {
@@ -65,8 +67,7 @@ NODEID NodeGetID();
 NODEID NodeGetNumber();
 NODE * NodeGetPtr(NODEID nodeid);
 
-
-
+void NodeSetMemStrg(NODE * node, int long size);
 
 
 

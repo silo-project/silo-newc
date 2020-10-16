@@ -6,10 +6,6 @@
 	Description: basic SILO defines
 */
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #ifndef SILO_DEFINE_HEAD
 #define SILO_DEFINE_HEAD
 
@@ -26,6 +22,7 @@ typedef unsigned SILO_ADDR DEFT_ADDR;
 typedef DEFT_WORD SIGNALSIZE;
 typedef DEFT_WORD NODEID;
 typedef DEFT_WORD PORTID;
+typedef DEFT_WORD WIREID;
 
 #define BASICMEM 4096 // 4KiB = 1Page
 
@@ -34,8 +31,4 @@ typedef union unisign {
 	SILO_ADDR sint;
 } UNISIGN;
 
-#endif
-
-#ifdef __cplusplus
-}
 #endif

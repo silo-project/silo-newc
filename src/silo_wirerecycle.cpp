@@ -1,35 +1,35 @@
-#ifndef SILO_RECYCLE_CODE
-#define SILO_RECYCLE_CODE
+#ifndef SILO_WIRERECYCLE_CODE
+#define SILO_WIRERECYCLE_CODE
 
 #include <cstdio>
 #include <cstdlib>
 
 #include "silo_define.h"
-#include "silo_node.h"
-#include "silo_recycle.h"
+#include "silo_wire.h"
+#include "silo_wirerecycle.h"
 
 // variables
 
-static NODEID * idStack;
-static NODEID stackSize;
-static NODEID stackPtr;
+static WIREID * idStack;
+static WIREID stackSize;
+static WIREID stackPtr;
 
 static bool isStackFull;
 static bool isStackSign;
 
-static NODEID gcOfs;
+static WIREID gcOfs;
 
 
 
 // functions
 
 // initialization recycle system
-int RecyInit() {
+int WireRecyInit() {
 	if (idStack != nullptr)
 		free(idStack);
 	
 	stackSize = BASICMEM;
-	idStack = (NODEID *)(malloc(sizeof(NODEID) * stackSize));
+	idStack = (WIREID *)(malloc(sizeof(WIREID) * stackSize));
 	
 	gcOfs = 20;
 	isStackFull = false;
@@ -40,15 +40,15 @@ int RecyInit() {
 	else
 		return 0;
 }
-int RecyReSizeStack() {
+int WireRecyReSizeStack() {
 	int n;
-	NODEID * p;
+	WIREID * p;
 	
-	stackSize = stackPtr / (BASICMEM/sizeof(NODEID));
-	if (stackPtr / (BASICMEM/sizeof(NODEID)))
+	stackSize = stackPtr / (BASICMEM/sizeof(WIREID));
+	if (stackPtr / (BASICMEM/sizeof(WIREID)))
 		stackSize++;
 		
-	p = (NODEID*)realloc(idStack, stackSize);
+	p = (WIREID*)realloc(idStack, stackSize);
 	
 	if (p == nullptr)
 		return 1;
@@ -59,24 +59,24 @@ int RecyReSizeStack() {
 }
 
 
-int RecyStatus(void) {
+int WireRecyStatus(void) {
     return stackPtr != 0;
 }
 
 
 
 // stack control
-void RecyPush(NODEID nodeid) {
+void WireRecyPush(WIREID nodeid) {
 	if (stackPtr < stackSize)
 		idStack[stackPtr++] = nodeid;
 	else
 		printf("\nWarning! : Stack Overflow.\n");
 	
 	if (stackPtr > gcOfs-1 )
-		RecyStartgc(idStack[stackPtr-gcOfs]);
+		WireRecyStartgc(idStack[stackPtr-gcOfs]);
 }
-NODEID RecyPull(void) {
-	NODEID nodeid;
+WIREID WireRecyPull(void) {
+	WIREID nodeid;
 	if (stackPtr >= 0)
 		nodeid = idStack[--stackPtr];
 	else
@@ -88,11 +88,11 @@ NODEID RecyPull(void) {
 
 
 // garbage collector
-void RecySetgcOfs(NODEID value) {
+void WireRecySetgcOfs(WIREID value) {
 	gcOfs = value;
 }
-void RecyStartgc(NODEID nodeid) {
-	delete NodeGetPtr(nodeid);
+void WireRecyStartgc(WIREID nodeid) {
+	delete WireGetPtr(nodeid);
 }
 
 

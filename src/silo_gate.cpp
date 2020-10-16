@@ -6,121 +6,119 @@
 #include "silo_gate.h"
 #include "silo_simulate.h"
 
-inline SIGNAL NodeReadInput(NODE * node, PORTID portid) {
-	return node->input[portid];
-}
+using SIGNAL = WIRE::SIGNAL;
 
-
-
-void GateADD(NODE * node) {
+void Gate::GateADD(NODE * node) {
     SIGNAL a, b, c;
-    a = NodeReadInput(node, 0);
-    b = NodeReadInput(node, 1);
+    a = node->ReadInput(0);
+    b = node->ReadInput(1);
 
     c.value = a.value + b.value;
     c.state = -1;
 
-    SendSignal(node->output[0], c);
+    SendSignal(node, 2, c);
 }
-void GateSUB(NODE * node) {
+
+void Gate::GateSUB(NODE * node) {
     SIGNAL a, b, c;
-    a = NodeReadInput(node, 0);
-    b = NodeReadInput(node, 1);
+    a = node->ReadInput(0);
+    b = node->ReadInput(1);
 
     c.value = a.value - b.value;
     c.state = -1;
 
-    SendSignal(node->output[0], c);
+    SendSignal(node, 2, c);
 }
-void GateMUL(NODE * node) {
+void Gate::GateMUL(NODE * node) {
     SIGNAL a, b, c;
-    a = NodeReadInput(node, 0);
-    b = NodeReadInput(node, 1);
+    a = node->ReadInput(0);
+    b = node->ReadInput(1);
 
     c.value = a.value * b.value;
     c.state = -1;
 
-    SendSignal(node->output[0], c);
+    SendSignal(node, 2, c);
 }
-void GateDIV(NODE * node) {
-	SIGNAL a, b, c;
-	a = NodeReadInput(node, 0);
-	b = NodeReadInput(node, 1);
 
-	c.value = a.value / b.value;
-	c.state = -1;
-
-	SendSignal(node->output[0], c);
-}
-void GateMOD(NODE * node) {
+void Gate::GateDIV(NODE * node) {
     SIGNAL a, b, c;
-    a = NodeReadInput(node, 0);
-    b = NodeReadInput(node, 1);
+    a = node->ReadInput(0);
+    b = node->ReadInput(1);
+
+    c.value = a.value / b.value;
+    c.state = -1;
+
+    SendSignal(node, 2, c);
+}
+
+void Gate::GateMOD(NODE * node) {
+    SIGNAL a, b, c;
+    a = node->ReadInput(0);
+    b = node->ReadInput(1);
 
     c.value = a.value % b.value;
     c.state = -1;
 
-    SendSignal(node->output[0], c);
+    SendSignal(node, 2, c);
 }
-void GateAND(NODE * node) {
+
+void Gate::GateAND(NODE * node) {
     SIGNAL a, b, c;
-    a = NodeReadInput(node, 0);
-    b = NodeReadInput(node, 1);
+    a = node->ReadInput(0);
+    b = node->ReadInput(1);
 
     c.value = a.value & b.value;
     c.state = -1;
 
-    SendSignal(node->output[0], c);
+    SendSignal(node, 2, c);
 }
 
-void GateIOR(NODE * node) {
+void Gate::GateIOR(NODE * node) {
     SIGNAL a, b, c;
-    a = NodeReadInput(node, 0);
-    b = NodeReadInput(node, 1);
+    a = node->ReadInput(0);
+    b = node->ReadInput(1);
 
     c.value = a.value | b.value;
     c.state = -1;
 
-    SendSignal(node->output[0], c);
+    SendSignal(node, 2, c);
 }
 
-void GateEOR(NODE * node) {
+void Gate::GateEOR(NODE * node) {
     SIGNAL a, b, c;
-    a = NodeReadInput(node, 0);
-    b = NodeReadInput(node, 1);
+    a = node->ReadInput(0);
+    b = node->ReadInput(1);
 
     c.value = a.value ^ b.value;
     c.state = -1;
 
-    SendSignal(node->output[0], c);
+    SendSignal(node, 2, c);
 }
 
 
 
-void GateROL(NODE * node) {
-	SIGNAL a, b, c;
-	
-	a = NodeReadInput(node, 0);
-	b = NodeReadInput(node, 1);
-	
-	c.value = a.value << b.value;
-	c.state = -1;
-	
-	SendSignal(node->output[0], c);
+void Gate::GateROL(NODE * node) {
+    SIGNAL a, b, c;
+    a = node->ReadInput(0);
+    b = node->ReadInput(1);
+
+    c.value = a.value << b.value;
+    c.state = -1;
+
+    SendSignal(node, 2, c);
 }
-void GateROR(NODE * node) {
-	SIGNAL a, b, c;
-	
-	a = NodeReadInput(node, 0);
-	b = NodeReadInput(node, 1);
-	
-	c.value = a.value >> b.value;
-	c.state = -1;
-	
-	SendSignal(node->output[0], c);
+void Gate::GateROR(NODE * node) {
+    SIGNAL a, b, c;
+    a = node->ReadInput(0);
+    b = node->ReadInput(1);
+
+    c.value = a.value >> b.value;
+    c.state = -1;
+
+    SendSignal(node, 2, c);
 }
 
-void GateMUX(NODE * node) {
+/*void Gate::GateMUX(NODE * node) {
 	
-}
+}*/
 #endif
