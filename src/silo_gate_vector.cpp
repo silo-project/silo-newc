@@ -17,58 +17,38 @@ void GateSTD_VEC(NODE * node) {
 		DEFT_WORD v[2];
 	};
 	
+	uniwrd wd;
+	
 	inst = node->attribute[0];
 	
 	z.state = -1;
 	for (i = 0; i <= node->attribute[1]; i++) {
 		x = node->input[i];
 		y = node->input[i];
-		switch (inst) {
-		case 0:
-			z.value = x.value + y.value;
-			break;
-		case 1:
-			z.value = x.value - y.value;
-			break;
-		case 2:
-			z.value = x.value * y.value;
-			break;
-		case 3:
-			z.value = x.value / y.value;
-			break;
-		case 4:
-			z.value = x.value % y.value;
-			break;
-		case 5:
-			z.value = x.value & y.value;
-			break;
-		case 6:
-			z.value = x.value | y.value;
-			break;
-		case 7:
-			z.value = x.value ^ y.value;
-			break;
-		case 8:
-			z.value = x.value << y.value;
-			break;
-		case 9:
-			z.value = x.value >> y.value;
-			break;
+		switch (inst)
+		{
+		case 0: z.value = x.value +  y.value; break;
+		case 1: z.value = x.value -  y.value; break;
+		case 2: z.value = x.value *  y.value; break;
+		case 3: z.value = x.value /  y.value; break;
+		case 4: z.value = x.value %  y.value; break;
+		case 5: z.value = x.value &  y.value; break;
+		case 6: z.value = x.value |  y.value; break;
+		case 7: z.value = x.value ^  y.value; break;
+		case 8: z.value = x.value << y.value; break;
+		case 9: z.value = x.value >> y.value; break;
 		case 10: // MULC; Multiply Carry
 			xd = x.value;
 			yd = y.value;
-			s = xd * yd;
-			z.value = v[1];
+			wd.s = xd * yd;
+			z.value = wd.v[1];
 			break;
-		case 11:
-			(signed)z.value = (signed)x.value / (signed)y.value;
-			break;
-		case 12:
-			(signed)z.value = (signed)x.value % (signed)y.value;
-			break;
-		case 13:
-			(signed)z.value = (signed)x.value >> (signed)y.value;
-			break;
+		
+		case 11: z.value = (signed)x.value /  (signed)y.value; break;
+		case 12: z.value = (signed)x.value %  (signed)y.value; break;
+		case 13: z.value = (signed)x.value >> (signed)y.value; break;
+		
+
 		default:
 			return;
 			break;

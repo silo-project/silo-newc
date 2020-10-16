@@ -37,10 +37,10 @@ public:
     
     void SetType(void (*function)(NODE*));
     void SetAttr(DEFT_WORD attr, DEFT_ADDR index);
-    void SetOupt(SENDFORM dst, SENDFORM src)
+    void SetOupt(SENDFORM dst, SENDFORM src);
     
     void SetAttrs(DEFT_WORD * attr, DEFT_ADDR limit);
-    void SetOupts(NODEID nodeid, SENDFORM * src, DEFT_ADDR limit)
+    void SetOupts(NODEID nodeid, SENDFORM * src, DEFT_ADDR limit);
 };
 
 typedef struct sendformat {
