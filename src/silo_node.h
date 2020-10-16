@@ -23,17 +23,24 @@ public:
 	VALUE    * attribute    = nullptr;
 	SIGNAL   * input        = nullptr;
 	SENDFORM * output       = nullptr;
+	
 	NODEID nodeid;
 	nodeclass();
 	~nodeclass();
 	void Recycle();
-    int SetMemory(DEFT_ADDR size);
+	
+    int  SetMemory (DEFT_ADDR size);
+    int  ReSizeMem (DEFT_ADDR size);
     void SetOfsAttr(DEFT_ADDR offset);
     void SetOfsInpt(DEFT_ADDR offset);
     void SetOfsOupt(DEFT_ADDR offset);
-    void SetType(void (*fn)(NODE*));
+    
+    void SetType(void (*function)(NODE*));
     void SetAttr(DEFT_WORD attr, DEFT_ADDR index);
-    void SetAttrs(const DEFT_WORD * attr, DEFT_ADDR limit);
+    void SetOupt(SENDFORM dst, SENDFORM src)
+    
+    void SetAttrs(DEFT_WORD * attr, DEFT_ADDR limit);
+    void SetOupts(NODEID nodeid, SENDFORM * src, DEFT_ADDR limit)
 };
 
 typedef struct sendformat {
