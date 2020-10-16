@@ -7,19 +7,22 @@
 #include "silo_simulate.h"
 
 void GateSTD_VEC(NODE * node) {
-	printf("debug\n");
 	SIGNAL x, y, z; // x <inst> y = z
 	PORTID i;
 	int inst;
 	
+	DEFT_DWRD xd, yd;
+	union uniwrd{
+		DEFT_DWRD s;
+		DEFT_WORD v[2];
+	};
+	
 	inst = node->attribute[0];
-	printf("attr : %d, %d\n", node->attribute[0], node->attribute[1]);
 	
 	z.state = -1;
 	for (i = 0; i <= node->attribute[1]; i++) {
 		x = node->input[i];
 		y = node->input[i];
-		printf("instruction : %d\n", inst);
 		switch (inst) {
 		case 0:
 			z.value = x.value + y.value;
@@ -50,6 +53,21 @@ void GateSTD_VEC(NODE * node) {
 			break;
 		case 9:
 			z.value = x.value >> y.value;
+			break;
+		case 10: // MULC; Multiply Carry
+			xd = x.value;
+			yd = y.value;
+			s = xd * yd;
+			z.value = v[1];
+			break;
+		case 11:
+			(signed)z.value = (signed)x.value / (signed)y.value;
+			break;
+		case 12:
+			(signed)z.value = (signed)x.value % (signed)y.value;
+			break;
+		case 13:
+			(signed)z.value = (signed)x.value >> (signed)y.value;
 			break;
 		default:
 			return;

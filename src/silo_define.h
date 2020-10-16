@@ -20,6 +20,7 @@ extern "C" {
 #define SILO_ADDR long long
 
 typedef unsigned SILO_WORD DEFT_WORD;
+typedef unsigned long long DEFT_DWRD;
 typedef unsigned SILO_ADDR DEFT_ADDR;
 
 typedef DEFT_WORD SIGNALSIZE;
