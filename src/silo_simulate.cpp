@@ -20,7 +20,6 @@ using std::thread;
 // =static
 static std::vector<NODE *> * NextExecVector;
 static char *  SentList;
-static NODEID  NextExecMax;
 
 static int numberOfthread;
 static thread ** threads;
@@ -60,7 +59,7 @@ static void * beginSimulate(const int * tid, int * finishedthreadcount) {
 	int status;
 	
 	printf("tid : %d\n", *tid);
-	for (i = 0; (j = numberOfthread*i + *tid) <= NextExecMax; i++) {
+	for (i = 0; (j = numberOfthread*i + *tid) < NextExecVector->size(); i++) {
 		printf("j : %d\n", j);
 		node = NextExecVector->at(j);
 		node->function(node);
@@ -83,9 +82,9 @@ inline static void makelist() {
 	
 	for (i = 0, j = NodeGetNumber(); i < j; i++) {
 		if (SentList[i])
-            (*NextExecVector)[i] = NodeGetPtr(i);
+		    NextExecVector->push_back(NodeGetPtr(i));
+		    //NextExecVector->insert(NextExecVector->begin() + i, NodeGetPtr(i));
 	}
-	NextExecMax = i;
 }
 
 
@@ -103,7 +102,6 @@ inline static int setThread(int n) {
 int SimuInit() {
     NextExecVector = new std::vector<NODE *>();
 	SentList = (char*)malloc((long long)NodeGetNumber());
-	NextExecMax = 0;
 	
 	numberOfthread = 16;
 	threads = (thread **)malloc(sizeof(thread*)*numberOfthread);
