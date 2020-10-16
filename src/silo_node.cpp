@@ -1,67 +1,29 @@
 #ifndef SILO_NODE_CODE
 #define SILO_NODE_CODE
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdlib>
+#include <map>
 #include "silo_define.h"
 #include "silo_node.h"
 #include "silo_recycle.h"
 
 
 // variables
-static NODE ** NodePtrTable;
+static std::map<NODEID, NODE *> NodePtrMap;
 static NODEID NodeLastID;
 static DEFT_ADDR NodeTableSize;
 
 DEFT_ADDR NodeNumber;
 
-// declaration
-// static
-inline static bool isReSize(NODEID);
-
-// definition
-// static
-inline static bool isReSize(NODEID nodeid) {
-	return (nodeid >= NodeTableSize/sizeof(NODE*)) ? true : false;
-}
-
-
 // definition
 // public
 // initialization node management system
-int NodeInit(void) {
-	if (NodePtrTable != NULL)
-		free(NodePtrTable);
-	
-	NodeTableSize = BASICMEM;
-	NodePtrTable = (NODE**)malloc(NodeTableSize);
-	NodeLastID = 0;
-	
-	if (NodePtrTable == NULL)
-		return 1;
-	else
-		return 0;
-}
-static int NodeReSizeTable() {
-	NODEID i;
-	int n;
-	NODE ** p;
-	
-	n = NodeLastID / (BASICMEM/sizeof(NODE*));
-	if (NodeLastID % (BASICMEM/sizeof(NODE*)))
-		n++;
-	NodeTableSize = BASICMEM * n;
-	
-	p = (NODE**)realloc(NodePtrTable, NodeTableSize);
-	
-	if (p == 0)
-		return 1;
-	else {
-		NodePtrTable = p;
-		return 0;
-	}
-}
+int NodeInit() {
+    NodePtrMap.clear();
 
+	NodeLastID = 0;
+	return 0;
+}
 
 
 // create empty node
@@ -69,11 +31,8 @@ nodeclass::nodeclass() {
 
 	this->nodeid = NodeGetID();
 	
-	if (isReSize(this->nodeid))
-		NodeReSizeTable();
-	
 	this->storage = nullptr;
-	NodePtrTable[this->nodeid] = this;
+	NodePtrMap.insert(std::pair(this->nodeid, this));
 }
 
 // delete node
@@ -85,13 +44,6 @@ nodeclass::~nodeclass() {
 // recycle node
 void nodeclass::Recycle() {
 	RecyPush(nodeid);
-	return;
-}
-
-// node ptr put in table
-void NodeAddPtr(NODEID nodeid, NODE * node) {
-	NodePtrTable[nodeid] = node;
-	return;
 }
 
 NODEID NodeGetID() {
@@ -100,11 +52,13 @@ NODEID NodeGetID() {
 	else
 		return NodeLastID++;
 }
+
 NODEID NodeGetNumber() {
 	return NodeLastID;
 }
-NODE * NodeGetPtr(NODEID nodeid) {
-	return NodePtrTable[nodeid];
+
+inline NODE * NodeGetPtr(NODEID nodeid) {
+	return NodePtrMap[nodeid];
 }
 
 void NodeSetOutput(SENDFORM dst, SENDFORM src) {

@@ -16,7 +16,7 @@
 #include "silo_nodeconf.h"
 
 int nodeclass::SetMemory(DEFT_ADDR size) {
-	this->storage = (VALUE *)(SILO_WORD *) malloc(sizeof(DEFT_WORD) * size);
+	this->storage = (VALUE *) malloc(sizeof(DEFT_WORD) * size);
 	if (this->storage == NULL)
 		return -1;
 	else

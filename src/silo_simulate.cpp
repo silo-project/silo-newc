@@ -1,14 +1,18 @@
 #ifndef SILO_SIMULATE_CODE
 #define SILO_SIMULATE_CODE
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <pthread.h>
+#include <cstdio>
+#include <cstdlib>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
 #include <unistd.h>
 
 #include "silo_define.h"
 #include "silo_node.h"
 #include "silo_simulate.h"
+
+using std::thread;
 
 // declaration(variables)
 // =static
@@ -17,22 +21,22 @@ static char *  SentList;
 static NODEID  NextExecMax;
 
 static int numberOfthread;
-static pthread_t * thread;
+static thread ** threads;
 
 // =public
 // declaration(functions)
 // =static
 inline static bool isReSize(NODEID);
 
-static void * beginSimulate(void *);
+static void * beginSimulate(const int *, int *);
 
 inline static void sendSignal(SENDFORM, SIGNAL);
-inline static void makelist(void);
+inline static void makelist();
 inline static int  setThread(int);
 
-pthread_attr_t attr;
-pthread_cond_t cond;
-pthread_mutex_t mtx;
+std::condition_variable cond;
+std::mutex mtx;
+std::unique_lock<std::mutex> lock(mtx);
 
 
 // =public
@@ -48,21 +52,22 @@ pthread_mutex_t mtx;
 // =static
 
 // ==simulate
-static void * beginSimulate(void * tid) {
+static void * beginSimulate(const int * tid, int * finishedthreadcount) {
 	NODEID i, j;
 	NODE * node;
 	int status;
 	
-	printf("tid : %d\n", *((int*)tid));
-	for (i = 0; (j = numberOfthread*i + *((int*)tid)) <= NextExecMax; i++) {
+	printf("tid : %d\n", *tid);
+	for (i = 0; (j = numberOfthread*i + *tid) <= NextExecMax; i++) {
 		printf("j : %d\n", j);
 		node = NextExecList[j];
 		node->function(NextExecList[j]);
 	}
-	if (numberOfthread == *((int*)tid)+1)
-		pthread_cond_signal(&cond);
 	
 	printf("end of simulate(%d)\n", *((int*)tid));
+	mtx.lock();
+    (*finishedthreadcount)++;
+	mtx.unlock();
 	return (void *)NULL;
 }
 
@@ -89,42 +94,21 @@ inline static void makelist() {
 
 // ==thread
 inline static int setThread(int n) {
-	pthread_t * p;
-	
-	numberOfthread = n;
-	p = (pthread_t *)(realloc(thread, sizeof(pthread_t) * n));
-	
-	if (p == NULL)
-		return -1;
-	else {
-		thread = p;
-		return 0;
-	}
+    numberOfthread = n;
+    auto ** p = static_cast<class thread **>(realloc(threads, sizeof(thread*) * n));
+
+	return p == NULL ? -1 : 0;
 }
 
 // =public
 // ==initialization Simulator
 int SimuInit(void) {
-	int attrstatus, condstatus, mutxstatus;
-	
 	NextExecList = (NODE**)malloc(sizeof(NODE**)*NodeGetNumber());
 	SentList = (char*)malloc((long long)NodeGetNumber());
 	NextExecMax = 0;
 	
 	numberOfthread = 16;
-	thread = (pthread_t*)malloc(sizeof(pthread_t)*numberOfthread);
-	
-	attrstatus = pthread_attr_init(&attr);
-	condstatus = pthread_cond_init(&cond, NULL);
-	mutxstatus = pthread_mutex_init(&mtx, NULL);
-	
-	if ((attrstatus < 0) || (condstatus < 0) || (mutxstatus < 0)) {
-		printf("failed to initialization\n");
-		return -1;
-	}
-	else {
-		pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
-	}
+	threads = (thread **)malloc(sizeof(thread*)*numberOfthread);
 	
 	if ((NextExecList == NULL) || (SentList == NULL))
 		return 1;
@@ -173,24 +157,25 @@ void SimuSendInteger(SENDFORM sendform, DEFT_WORD integer) {
 
 int Simulate(void) {
 	int i; // index of thread
-	int status;
 	
-	pthread_t arr[numberOfthread];
+	int tidarr[numberOfthread];
+
+	int finishedthreadcount = 0;
 	
 	for (i = 0; i < numberOfthread; i++) {
-		arr[i] = i;
-		status = pthread_create(&thread[i], &attr, beginSimulate, (void*)&arr[i]);
-		if (status != 0) {
-			printf("Thread Create Error! : %p\n", thread[i]);
+		tidarr[i] = i;
+		threads[i] = new thread(beginSimulate, &(tidarr[i]), &finishedthreadcount);
+		if (threads[i] == NULL) {
+			printf("Thread Create Error! : %p\n", threads[i]);
 			return -1;
 		}
+        threads[i]->detach();
 	}
 	printf("debug simulate\n");
-	pthread_mutex_lock(&mtx);
-	pthread_cond_wait(&cond, &mtx);
-	
-	
-	
+
+
+	cond.wait(lock, [&finishedthreadcount]() { return finishedthreadcount == numberOfthread; });
+	mtx.unlock();
 	
 	return 0;
 }

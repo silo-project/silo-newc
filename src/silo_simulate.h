@@ -1,7 +1,3 @@
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #ifndef SILO_SIMULATE_HEAD
 #define SILO_SIMULATE_HEAD
 
@@ -37,8 +33,4 @@ int SimuReSizeList(DEFT_ADDR size);
 
 
 
-#endif
-
-#ifdef __cplusplus
-}
 #endif

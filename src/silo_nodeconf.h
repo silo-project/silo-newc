@@ -6,9 +6,6 @@
 	Description: configure node
 */
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 #ifndef SILO_NODECONF_HEAD
 #define SILO_NODECONF_HEAD
@@ -34,8 +31,4 @@ void NodeSetMemStrg(NODE * node, int long size);
 
 
 
-#endif
-
-#ifdef __cplusplus
-}
 #endif
