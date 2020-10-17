@@ -5,9 +5,7 @@
 #include <cstdlib>
 #include <vector>
 #include <thread>
-#include <atomic>
 #include <condition_variable>
-#include <unistd.h>
 
 #include "silo_define.h"
 #include "silo_node.h"
@@ -32,10 +30,6 @@ inline static bool isReSize(NODEID);
 inline static void makelist();
 inline static int  setThread(int);
 
-std::condition_variable cond;
-std::mutex mtx;
-std::unique_lock<std::mutex> lock(mtx);
-
 
 // =public
 
@@ -50,7 +44,7 @@ std::unique_lock<std::mutex> lock(mtx);
 // =static
 
 // ==simulate
-static void * beginSimulate(const int * tid, int * finishedthreadcount) {
+static void * beginSimulate(const int * tid, int * finishedthreadcount, std::mutex * mtx) {
 	NODEID i, j;
 	NODE * node;
 	
@@ -62,9 +56,9 @@ static void * beginSimulate(const int * tid, int * finishedthreadcount) {
 	}
 	
 	printf("end of simulate(%d)\n", *((int*)tid));
-	mtx.lock();
+	mtx->lock();
     (*finishedthreadcount)+= 1;
-	mtx.unlock();
+	mtx->unlock();
 	return (void *)nullptr;
 }
 
@@ -120,6 +114,10 @@ int SimuReSizeList(DEFT_ADDR size) {
 }*/
 
 int Simulate() {
+    std::condition_variable cond;
+    std::mutex mtx;
+    std::unique_lock<std::mutex> lock(mtx);
+
 	int i; // index of thread
 	
 	int * tidarr = (int *)malloc(sizeof(int) * numberOfthread);
@@ -129,13 +127,17 @@ int Simulate() {
 	
 	for (i = 0; i < numberOfthread; i++) {
 		tidarr[i] = i;
-        auto * thr = new thread(beginSimulate, &(tidarr[i]), finishedthreadcount);
+        auto * thr = new thread(beginSimulate, &(tidarr[i]), finishedthreadcount, &mtx);
         thr->detach();
 	}
-	printf("debug simulate\n");
 
+	cond.wait(lock, [finishedthreadcount]() {
+	    printf("finishedthreadcount : %d\n", *finishedthreadcount);
+	    return *finishedthreadcount == numberOfthread;
+	});
 
-	cond.wait(lock, [finishedthreadcount]() { return *finishedthreadcount == numberOfthread; });
+    printf("debug simulate\n");
+
 	mtx.unlock();
 
 	free(tidarr);
