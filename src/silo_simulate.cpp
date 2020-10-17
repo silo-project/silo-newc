@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <vector>
 #include <thread>
-#include <mutex>
+#include <atomic>
 #include <condition_variable>
 #include <unistd.h>
 
@@ -22,14 +22,11 @@ static std::vector<NODE *> * NextExecVector;
 static char *  SentList;
 
 static int numberOfthread;
-static thread ** threads;
 
 // =public
 // declaration(functions)
 // =static
 inline static bool isReSize(NODEID);
-
-static void * beginSimulate(const int *, int *);
 
 //inline static void sendSignal(SENDFORM, SIGNAL);
 inline static void makelist();
@@ -53,10 +50,9 @@ std::unique_lock<std::mutex> lock(mtx);
 // =static
 
 // ==simulate
-static void * beginSimulate(const int * tid, int * finishedthreadcount) {
+static void * beginSimulate(const int * tid, volatile int * finishedthreadcount) {
 	NODEID i, j;
 	NODE * node;
-	int status;
 	
 	printf("tid : %d\n", *tid);
 	for (i = 0; (j = numberOfthread*i + *tid) < NextExecVector->size(); i++) {
@@ -87,16 +83,6 @@ inline static void makelist() {
 	}
 }
 
-
-
-// ==thread
-inline static int setThread(int n) {
-    numberOfthread = n;
-    auto ** p = static_cast<class thread **>(realloc(threads, sizeof(thread*) * n));
-
-	return p == nullptr ? -1 : 0;
-}
-
 // =public
 // ==initialization Simulator
 int SimuInit() {
@@ -104,7 +90,6 @@ int SimuInit() {
 	SentList = (char*)malloc((long long)NodeGetNumber());
 	
 	numberOfthread = 16;
-	threads = (thread **)malloc(sizeof(thread*)*numberOfthread);
 	
 	if (SentList == nullptr)
 		return 1;
@@ -139,16 +124,12 @@ int Simulate() {
 	
 	int tidarr[numberOfthread];
 
-	int finishedthreadcount = 0;
+	volatile int finishedthreadcount = 0;
 	
 	for (i = 0; i < numberOfthread; i++) {
 		tidarr[i] = i;
-		threads[i] = new thread(beginSimulate, &(tidarr[i]), &finishedthreadcount);
-		if (threads[i] == nullptr) {
-			printf("Thread Create Error! : %p\n", threads[i]);
-			return -1;
-		}
-        threads[i]->detach();
+        auto * thr = new thread(beginSimulate, &(tidarr[i]), &finishedthreadcount);
+        thr->detach();
 	}
 	printf("debug simulate\n");
 
