@@ -29,12 +29,19 @@ static int numberOfthread;
 inline static bool isReSize(NODEID);
 
 //inline static void sendSignal(SENDFORM, SIGNAL);
-inline static void makelist();
-inline static int  setThread(int);
+static void makeVector();
+static int  setThread(int);
 
 std::condition_variable cond;
 std::mutex mtx;
 std::unique_lock<std::mutex> lock(mtx);
+
+
+
+volatile static int  * thread_id;
+volatile static bool * thread_ready;
+volatile static bool   thread_start;
+
 
 
 // =public
@@ -50,30 +57,31 @@ std::unique_lock<std::mutex> lock(mtx);
 // =static
 
 // ==simulate
-static void * beginSimulate(const int * tid, int * finishedthreadcount) {
-	NODEID i, j;
-	NODE * node;
+static void * beginThread(const int * tid, bool * trd) {
+	NODEID n;
 	
-	printf("tid : %d\n", *tid);
-	for (i = 0; (j = numberOfthread*i + *tid) < NextExecVector->size(); i++) {
-		printf("j : %d\n", j);
-		node = NextExecVector->at(j);
-		node->function(node);
+	while (true)
+	{
+		// wait for the simulate
+		if (!thread_start)
+			cond.wait(&mtx);
+		*trd = false;
+		
+		for (n = 0; (n += numberOfthread + *tid) < NextExecVector->size();)
+			NextExecVector->at(n)->function(NextExecVector->at(n));
+		
+		
 	}
 	
-	printf("end of simulate(%d)\n", *((int*)tid));
-	mtx.lock();
-    (*finishedthreadcount)+= 1;
-	mtx.unlock();
 	return (void *)nullptr;
 }
 
-void SendSignal(NODE * n, WIREID d, WIRE::SIGNAL s) {
-    WireGetPtr(d)->signal = s;
-	SentList[n->nodeid] = true;
+void SendSignal(NODE * node, WIREID dest, WIRE::SIGNAL sig) {
+    WireGetPtr(dest)->signal = sig;
+	SentList[node->nodeid] = true;
 }
 
-inline static void makelist() {
+static void makeVector() {
 	NODEID i, j;
 	
 	for (i = 0, j = NodeGetNumber(); i < j; i++) {
@@ -86,10 +94,23 @@ inline static void makelist() {
 // =public
 // ==initialization Simulator
 int SimuInit() {
+	int i;
+	
     NextExecVector = new std::vector<NODE *>();
 	SentList = (char*)malloc((long long)NodeGetNumber());
 	
-	numberOfthread = 16;
+	// thread create
+	numberOfthread = 16; // default thread
+	
+	thread_id    = (int  *)malloc(sizeof(int) * numberOfthread);
+	thread_ready = (bool *)malloc(sizeof(int) * numberOfthread);
+	thread_start = false;
+	
+	for (i = 0; i < numberOfthread; i++) {
+		thread_id[i] = i;
+        auto * thr = new thread(beginThread, &(thread_id[i]), &(thread_ready[i]) );
+        thr->detach();
+	}
 	
 	if (SentList == nullptr)
 		return 1;
@@ -120,33 +141,19 @@ int SimuReSizeList(DEFT_ADDR size) {
 }*/
 
 int Simulate() {
-	int i; // index of thread
+	int i, j;
 	
-	int * tidarr = (int *)malloc(sizeof(int) * numberOfthread);
-
-	int * finishedthreadcount = (int *)malloc(sizeof(int));
-	*finishedthreadcount = 0;
+	thread_start = true;
+	cond.notify_all();
 	
-	for (i = 0; i < numberOfthread; i++) {
-		tidarr[i] = i;
-        auto * thr = new thread(beginSimulate, &(tidarr[i]), finishedthreadcount);
-        thr->detach();
-	}
-	printf("debug simulate\n");
-
-
-	cond.wait(lock, [finishedthreadcount]() { return *finishedthreadcount == numberOfthread; });
-	mtx.unlock();
-
-	free(tidarr);
-	free(finishedthreadcount);
+	cond.wait(&mtx);
+	
+	
+	// cond.wait(lock, [finishedthreadcount]() { return *finishedthreadcount == numberOfthread; });
 
 	return 0;
 }
 
-void SimuMakeList() {
-	makelist();
-}
 
 
 

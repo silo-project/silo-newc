@@ -19,8 +19,7 @@ int SimuInit();
 int SimuReset();
 int Simulate();
 
-void SimuMakeList();
-void SendSignal(NODE * n, WIREID d, WIRE::SIGNAL s);
+void SendSignal(NODE * node, WIREID dest, WIRE::SIGNAL sig);
 //void SendInteger(SENDFORM sendform, DEFT_WORD integer);
 
 int SimuReSizeList(DEFT_ADDR size);
