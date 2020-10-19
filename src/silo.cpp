@@ -75,7 +75,7 @@ int main(int argc, char **argv) {
     m->SetInpt(1, y->wireid);
     m->SetOupt(2, w->wireid);
 
-    SimuMakeList();
+    makeVector();
 
     status = Simulate();
 

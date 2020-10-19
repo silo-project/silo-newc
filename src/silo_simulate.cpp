@@ -17,7 +17,7 @@ using std::thread;
 // declaration(variables)
 // =static
 static std::vector<NODE *> * NextExecVector;
-static char *  SentList;
+static char * SentList;
 
 static int numberOfthread;
 
@@ -27,12 +27,10 @@ static int numberOfthread;
 inline static bool isReSize(NODEID);
 
 //inline static void sendSignal(SENDFORM, SIGNAL);
-static void makeVector();
-static int  setThread(int);
 
 
 
-volatile static int  * thread_id;
+static int  * thread_id;
 volatile static bool * thread_ready;
 volatile static bool   thread_start;
 
@@ -54,14 +52,14 @@ std::unique_lock<std::mutex> lock(mtx);
 // =static
 
 // ==simulate
-static void * beginThread(const int * tid, bool * trd) {
+static void * beginThread(const int * const tid, volatile bool * trd) {
 	NODEID n;
 	
 	while (true)
 	{
 		// wait for the simulate
 		if (!thread_start)
-			cond.wait(&mtx);
+			cond.wait(lock);
 		*trd = false;
 		
 		for (n = 0; (n += numberOfthread + *tid) < NextExecVector->size();)
@@ -78,14 +76,14 @@ void SendSignal(NODE * node, WIREID dest, WIRE::SIGNAL sig) {
 	SentList[node->nodeid] = true;
 }
 
-static void makeVector() {
-	NODEID i, j;
-	
-	for (i = 0, j = NodeGetNumber(); i < j; i++) {
-		if (SentList[i])
-		    NextExecVector->push_back(NodeGetPtr(i));
-		    //NextExecVector->insert(NextExecVector->begin() + i, NodeGetPtr(i));
-	}
+void makeVector() {
+    NODEID i, j;
+
+    for (i = 0, j = NodeGetNumber(); i < j; i++) {
+        if (SentList[i])
+            NextExecVector->push_back(NodeGetPtr(i));
+        //NextExecVector->insert(NextExecVector->begin() + i, NodeGetPtr(i));
+    }
 }
 
 // =public
@@ -143,7 +141,7 @@ int Simulate() {
 	thread_start = true;
 	cond.notify_all();
 
-	cond.wait(&mtx);
+	cond.wait(lock);
 
 
 	// cond.wait(lock, [finishedthreadcount]() { return *finishedthreadcount == numberOfthread; });

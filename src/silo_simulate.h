@@ -24,6 +24,9 @@ void SendSignal(NODE * node, WIREID dest, WIRE::SIGNAL sig);
 
 int SimuReSizeList(DEFT_ADDR size);
 
+void makeVector();
+static int setThread(int);
+
 
 // definition(functions)
 // =static
