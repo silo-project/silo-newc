@@ -8,7 +8,7 @@
 
 using SIGNAL = WIRE::SIGNAL;
 
-void GateSTD_VEC(NODE * node) {
+void GateSTD_VEC(NODE * node, Simulator* sim) {
 	SIGNAL x, y, z; // x <inst> y = z
 	PORTID i;
 	int inst;
@@ -55,7 +55,7 @@ void GateSTD_VEC(NODE * node) {
 			return;
 			break;
 		}
-		SendSignal(node, 2, z);
+		sim->SendSignal(node, 2, z);
 	}
 	}
 

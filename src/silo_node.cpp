@@ -76,7 +76,7 @@ int NODE::ReSizeMem(DEFT_ADDR size) {
 }
 
 // node configuration
-void NODE::SetType(void (* _function)(NODE*)) {
+void NODE::SetType(void (* _function)(NODE*, Simulator*)) {
     this->function = _function;
 }
 void NODE::SetAttr(DEFT_WORD attr, DEFT_ADDR index) {

@@ -15,13 +15,15 @@
 #include "silo_wire.h"
 #include "silo_port.h"
 
+typedef class simulatorclass Simulator;
+
 // types
 typedef struct sendformat SENDFORM;
 typedef class nodeclass NODE;
 
 class nodeclass {
 public:
-	void (*function)(NODE*) = nullptr;
+	void (*function)(NODE*, Simulator*) = nullptr;
 	VALUE    * storage      = nullptr;
 	std::map<DEFT_ADDR, DEFT_WORD> attributemap;
 	std::map<PORTID, PORT*> portmap;
@@ -36,7 +38,7 @@ public:
     int  SetMemory (DEFT_ADDR size);
     int  ReSizeMem (DEFT_ADDR size);
     
-    void SetType(void (*function)(NODE*));
+    void SetType(void (*function)(NODE*, Simulator*));
 
     void SetAttr(DEFT_WORD attr, DEFT_ADDR index);
     //void SetAttrs(const DEFT_WORD * attr, DEFT_ADDR limit);

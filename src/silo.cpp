@@ -40,12 +40,9 @@ int main(int argc, char **argv) {
     int initstatnode = NodeInit();
     int initstatnoderecy = NodeRecyInit();
     int initstatwirerecy = WireRecyInit();
-    int initstatsimu = SimuInit();
 
-    if (initstatnode || initstatwirerecy || initstatnoderecy || initstatsimu)
+    if (initstatnode || initstatwirerecy || initstatnoderecy)
         return -1;
-
-    SimuReSizeList(BASICMEM);
 
     n = new NODE();
     n->SetMemory(64);
@@ -75,9 +72,13 @@ int main(int argc, char **argv) {
     m->SetInpt(1, y->wireid);
     m->SetOupt(2, w->wireid);
 
-    makeVector();
+    auto * simu = new Simulator();
 
-    status = Simulate();
+    simu->makeVector();
+
+    printf("YAY\n");
+
+    simu->Simulate();
 
     sleep(1);
 
