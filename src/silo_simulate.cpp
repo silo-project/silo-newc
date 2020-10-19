@@ -36,6 +36,9 @@ volatile static int  * thread_id;
 volatile static bool * thread_ready;
 volatile static bool   thread_start;
 
+std::condition_variable cond;
+std::mutex mtx;
+std::unique_lock<std::mutex> lock(mtx);
 
 
 // =public
@@ -51,14 +54,8 @@ volatile static bool   thread_start;
 // =static
 
 // ==simulate
-<<<<<<< HEAD
 static void * beginThread(const int * tid, bool * trd) {
 	NODEID n;
-=======
-static void * beginSimulate(const int * tid, int * finishedthreadcount, std::mutex * mtx) {
-	NODEID i, j;
-	NODE * node;
->>>>>>> 828c9b2090b8ffa626aee7e0a368847b37778362
 	
 	while (true)
 	{
@@ -72,14 +69,7 @@ static void * beginSimulate(const int * tid, int * finishedthreadcount, std::mut
 		
 		
 	}
-	
-<<<<<<< HEAD
-=======
-	printf("end of simulate(%d)\n", *((int*)tid));
-	mtx->lock();
-    (*finishedthreadcount)+= 1;
-	mtx->unlock();
->>>>>>> 828c9b2090b8ffa626aee7e0a368847b37778362
+
 	return (void *)nullptr;
 }
 
@@ -148,43 +138,15 @@ int SimuReSizeList(DEFT_ADDR size) {
 }*/
 
 int Simulate() {
-<<<<<<< HEAD
 	int i, j;
-=======
-    std::condition_variable cond;
-    std::mutex mtx;
-    std::unique_lock<std::mutex> lock(mtx);
-
-	int i; // index of thread
->>>>>>> 828c9b2090b8ffa626aee7e0a368847b37778362
 	
 	thread_start = true;
 	cond.notify_all();
-	
-<<<<<<< HEAD
+
 	cond.wait(&mtx);
-	
-	
+
+
 	// cond.wait(lock, [finishedthreadcount]() { return *finishedthreadcount == numberOfthread; });
-=======
-	for (i = 0; i < numberOfthread; i++) {
-		tidarr[i] = i;
-        auto * thr = new thread(beginSimulate, &(tidarr[i]), finishedthreadcount, &mtx);
-        thr->detach();
-	}
-
-	cond.wait(lock, [finishedthreadcount]() {
-	    printf("finishedthreadcount : %d\n", *finishedthreadcount);
-	    return *finishedthreadcount == numberOfthread;
-	});
-
-    printf("debug simulate\n");
-
-	mtx.unlock();
-
-	free(tidarr);
-	free(finishedthreadcount);
->>>>>>> 828c9b2090b8ffa626aee7e0a368847b37778362
 
 	return 0;
 }
