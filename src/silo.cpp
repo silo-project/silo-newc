@@ -83,7 +83,7 @@ int main(int argc, char **argv) {
     sleep(1);
 
     for (i = 0; i < NodeGetNumber(); i++) {
-        printf("Nodeid : %d, Result : %d\n", i, n->portmap[3]->wire->signal); // 1, 10 Required
+        printf("Nodeid : %d, Result : %d\n", i, n->portmap[2]->wire->signal); // 1, 10 Required
     }
 
     return 0;
