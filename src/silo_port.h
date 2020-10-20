@@ -5,7 +5,7 @@
 #ifndef SILO_PORT_HEAD
 #define SILO_PORT_HEAD
 
-#include "silo_wire.h"
+#include "silo_signal.h"
 
 typedef enum porttypeenum {
     INPUT, OUTPUT
@@ -13,7 +13,7 @@ typedef enum porttypeenum {
 
 typedef struct portstruct {
     PORTTYPE type = PORTTYPE::INPUT;
-    WIRE * wire = nullptr;
+    SIGNAL * signal = nullptr;
 } PORT;
 
 

@@ -5,8 +5,9 @@
 #include <map>
 #include "silo_define.h"
 #include "silo_node.h"
-#include "silo_wire.h"
+#include "silo_signal.h"
 #include "silo_noderecycle.h"
+#include "silo_signal.h"
 
 
 // variables
@@ -83,17 +84,17 @@ void NODE::SetAttr(DEFT_WORD attr, DEFT_ADDR index) {
     this->attributemap[index] = attr;
 }
 
-void NODE::SetOupt(PORTID dst, WIREID src) {
+void NODE::SetOupt(PORTID dst, SIGNAL * src) {
     auto p = new PORT();
     p->type = PORTTYPE::OUTPUT;
-    p->wire = WireGetPtr(src);
+    p->signal = src;
     this->portmap[dst] = p;
 }
 
-void NODE::SetInpt(PORTID dst, WIREID src) {
+void NODE::SetInpt(PORTID dst, SIGNAL * src) {
     auto p = new PORT();
     p->type = PORTTYPE::INPUT;
-    p->wire = WireGetPtr(src);
+    p->signal = src;
     this->portmap[dst] = p;
 }
 
@@ -104,8 +105,12 @@ void NODE::SetInpt(PORTID dst, WIREID src) {
         this->attribute[i] = attr[i];
 }*/
 
-WIRE::SIGNAL NODE::ReadInput(PORTID portid) {
-    return this->portmap[portid]->wire->signal;
+SIGNAL * NODE::ReadInput(PORTID portid) {
+    return this->portmap[portid]->signal;
+}
+
+void NODE::WriteOutput(PORTID portid, SIGNAL * signal) {
+    memcpy(this->portmap[portid], signal, sizeof(SIGNAL));
 }
 
 #endif

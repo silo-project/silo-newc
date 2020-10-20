@@ -6,6 +6,4 @@ add_executable(silo-newc
         silo_noderecycle.cpp
         silo_port.cpp
         silo_simulate.cpp
-        silo_wire.cpp
-        silo_wirerecycle.cpp
-        )
+        silo_signal.cpp)
