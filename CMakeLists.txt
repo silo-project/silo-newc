@@ -5,4 +5,6 @@ set(CMAKE_VERBOSE_MAKEFILE true)
 
 set(CMAKE_CXX_STANDARD 17)
 
+find_package(Threads)
 add_subdirectory(src)
+target_link_libraries(silo-newc Threads::Threads)
