@@ -74,7 +74,7 @@ int main(int argc, char **argv) {
 
     simu->makeVector();
 
-    simu->Simulate();
+    simu->begin();
 
     sleep(10);
 
