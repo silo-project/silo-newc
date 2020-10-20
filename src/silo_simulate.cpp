@@ -59,9 +59,9 @@ int Simulator::begin() {
     
     this->condmain.wait(*lockmain);
     
-    for (i = 0; i < numberOfthread; i++)
-		response += (int) thread_ready[i];
-	if (response != numberOfthread)
+    for (i = 0; i < this->numberOfthread; i++)
+		response += (int) this->thread_ready[i];
+	if (response != this->numberOfthread)
 		return -1;
 	else
 		return 0;
@@ -80,7 +80,7 @@ void * Simulator::Thread(Simulator * sim, const int * tid, volatile bool * trd) 
 
 		for (i = response = 0; i < sim->numberOfthread; i++)
 			response += (int) sim->thread_ready[i];
-	
+		
 		if (response == sim->numberOfthread - 1) {
 			sim->condmain.notify_all();
 			sim->condsub.wait(*(sim->locksub));
