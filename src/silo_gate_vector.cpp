@@ -5,8 +5,8 @@
 #include "silo_node.h"
 #include "silo_gate.h"
 #include "silo_simulate.h"
+#include "silo_signal.h"
 
-using SIGNAL = WIRE::SIGNAL;
 
 void GateSTD_VEC(NODE * node, Simulator* sim) {
 	SIGNAL x, y, z; // x <inst> y = z
@@ -25,8 +25,9 @@ void GateSTD_VEC(NODE * node, Simulator* sim) {
 	
 	z.state = -1;
 	for (i = 0; i <= node->attributemap[1]; i++) {
-		x = node->ReadInput(i);
-		y = node->ReadInput(i);
+		memcpy(&x, node->ReadInput(i), sizeof(SIGNAL));
+		memcpy(&y, node->ReadInput(i), sizeof(SIGNAL));
+
 		switch (inst)
 		{
 		case 0: z.value = x.value +  y.value; break;
@@ -55,7 +56,9 @@ void GateSTD_VEC(NODE * node, Simulator* sim) {
 			return;
 			break;
 		}
-		sim->SendSignal(node, 2, z);
+
+		node->WriteOutput(2, &z);
+		sim->SendSignal(node);
 	}
 	}
 

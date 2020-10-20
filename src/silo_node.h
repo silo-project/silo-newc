@@ -12,7 +12,7 @@
 #include <map>
 
 #include "silo_define.h"
-#include "silo_wire.h"
+#include "silo_signal.h"
 #include "silo_port.h"
 
 typedef class simulatorclass Simulator;
@@ -22,11 +22,13 @@ typedef struct sendformat SENDFORM;
 typedef class nodeclass NODE;
 
 class nodeclass {
+protected:
+    std::map<PORTID, PORT*> portmap;
+
 public:
 	void (*function)(NODE*, Simulator*) = nullptr;
 	VALUE    * storage      = nullptr;
 	std::map<DEFT_ADDR, DEFT_WORD> attributemap;
-	std::map<PORTID, PORT*> portmap;
 	
 	NODEID nodeid;
 
@@ -43,10 +45,11 @@ public:
     void SetAttr(DEFT_WORD attr, DEFT_ADDR index);
     //void SetAttrs(const DEFT_WORD * attr, DEFT_ADDR limit);
 
-    void SetOupt(PORTID dst, WIREID src);
-    void SetInpt(PORTID dst, WIREID src);
+    void SetOupt(PORTID dst, SIGNAL * src);
+    void SetInpt(PORTID dst, SIGNAL * src);
 
-    WIRE::SIGNAL ReadInput(PORTID portid);
+    SIGNAL * ReadInput(PORTID portid);
+    void WriteOutput(PORTID portid, SIGNAL * signal);
 };
 
 typedef struct sendformat {

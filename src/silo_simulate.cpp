@@ -9,7 +9,7 @@
 
 #include "silo_define.h"
 #include "silo_node.h"
-#include "silo_wire.h"
+#include "silo_signal.h"
 #include "silo_simulate.h"
 
 using std::thread;
@@ -43,8 +43,7 @@ Simulator::~simulatorclass() {
     delete lock;
 }
 
-void Simulator::SendSignal(NODE * node, WIREID dest, WIRE::SIGNAL sig) {
-    WireGetPtr(dest)->signal = sig;
+void Simulator::SendSignal(NODE * node) {
     this->SentList[node->nodeid] = true;
 }
 

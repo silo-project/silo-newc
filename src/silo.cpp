@@ -20,12 +20,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <cstdio>
 #include <unistd.h>
 
-#include "silo_define.h"
 #include "silo_node.h"
 #include "silo_noderecycle.h"
 #include "silo_simulate.h"
 #include "silo_gate.h"
-#include "silo_wirerecycle.h"
+#include "silo_signal.h"
 
 
 int main(int argc, char **argv) {
@@ -33,15 +32,14 @@ int main(int argc, char **argv) {
 
     NODE *n, *m;
     NODE *node;
-    WIRE *x, *y, *z, *w;
+    SIGNAL *x, *y, *z, *w;
     int i, j;
     int status;
 
     int initstatnode = NodeInit();
     int initstatnoderecy = NodeRecyInit();
-    int initstatwirerecy = WireRecyInit();
 
-    if (initstatnode || initstatwirerecy || initstatnoderecy)
+    if (initstatnode || initstatnoderecy)
         return -1;
 
     n = new NODE();
@@ -54,37 +52,33 @@ int main(int argc, char **argv) {
     m->SetAttr(10, 1);
     m->SetType(Gate::GateADD);
 
-    x = new WIRE();
-    y = new WIRE();
-    z = new WIRE();
-    w = new WIRE();
+    x = new SIGNAL();
+    y = new SIGNAL();
+    z = new SIGNAL();
+    w = new SIGNAL();
 
-    x->signal.state = -1;
-    x->signal.value = 24;
-    y->signal.state = -1;
-    y->signal.value = 4;
+    x->state = -1;
+    x->value = 24;
+    y->state = -1;
+    y->value = 4;
 
-    n->SetInpt(0, x->wireid);
-    n->SetInpt(1, y->wireid);
-    n->SetOupt(2, z->wireid);
+    n->SetInpt(0, x);
+    n->SetInpt(1, y);
+    n->SetOupt(2, z);
 
-    m->SetInpt(0, z->wireid);
-    m->SetInpt(1, y->wireid);
-    m->SetOupt(2, w->wireid);
+    m->SetInpt(0, z);
+    m->SetInpt(1, y);
+    m->SetOupt(2, w);
 
     auto * simu = new Simulator();
 
     simu->makeVector();
 
-    printf("YAY\n");
-
     simu->Simulate();
 
-    sleep(1);
+    sleep(10);
 
-    for (i = 0; i < NodeGetNumber(); i++) {
-        printf("Nodeid : %d, Result : %d\n", i, n->portmap[2]->wire->signal); // 1, 10 Required
-    }
+    printf("%d", w->value);
 
     return 0;
 }

@@ -31,7 +31,7 @@ public:
 
     void makeVector();
 
-    void SendSignal(NODE *node, WIREID dest, wireclass::SIGNAL sig);
+    void SendSignal(NODE *node);
     static void * beginThread(Simulator * sim, const int * tid, volatile bool * trd);
 
     int Simulate();
