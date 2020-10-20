@@ -22,8 +22,8 @@ public:
     int numberOfthread;
 
     int  * thread_id;
-    volatile bool * thread_ready;
-    volatile bool   thread_start;
+    bool * thread_ready;
+    bool * thread_start;
 
     std::condition_variable cond;
     std::mutex mtx;
