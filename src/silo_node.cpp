@@ -36,6 +36,9 @@ nodeclass::nodeclass() { // NODE로 고치지 말 것: 되먹지 못한 오류 �
 
 // delete node
 nodeclass::~nodeclass() { // NODE로 고치지 말 것: 되먹지 못한 오류 발생
+    for(auto p : this->portmap)
+        delete p.second;
+
 	if (this->storage != nullptr)
 		free(this->storage);
 }
