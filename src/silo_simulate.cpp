@@ -50,11 +50,11 @@ int Simulator::begin() {
     this->thread_start = true;
     this->cond.notify_all();
     
-    mainthread.wait();
+    this->mainthread.wait(mtx);
     
-    for (i = 0; i < numberOfthread; i++)
-		response += (int) thread_ready[i];
-	if (response != numberOfthread)
+    for (i = 0; i < this->numberOfthread; i++)
+		response += (int) this->thread_ready[i];
+	if (response != this->numberOfthread)
 		return -1;
 	else
 		return 0;
@@ -71,15 +71,15 @@ void * Simulator::Thread(Simulator * sim, const int * tid, volatile bool * trd) 
         // wait for the simulate
 		*trd = true;
 	
-		for (i = response = 0; i < numberOfthread; i++)
-			response += (int) thread_ready[i];
+		for (i = response = 0; i < sim->numberOfthread; i++)
+			response += (int) sim->thread_ready[i];
 	
-		if (response == numberOfthread - 1) {
-			mainthread.notify_all();
-			cond.wait();
+		if (response == sim->numberOfthread - 1) {
+			sim->mainthread.notify_all();
+			sim->cond.wait(mtx);
 		}
 		else
-			cond.wait();
+			sim->cond.wait(mtx);
 		*trd = false;
         
         sim->Simulation(tid);
