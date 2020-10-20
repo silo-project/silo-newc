@@ -76,7 +76,7 @@ int main(int argc, char **argv) {
 
     simu->begin();
 
-    sleep(10);
+    sleep(1);
 
     printf("%d", w->value);
 
