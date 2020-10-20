@@ -111,7 +111,7 @@ SIGNAL * NODE::ReadInput(PORTID portid) {
 }
 
 void NODE::WriteOutput(PORTID portid, SIGNAL * signal) {
-    memcpy(this->portmap[portid], signal, sizeof(SIGNAL));
+    memcpy(this->portmap[portid]->signal, signal, sizeof(SIGNAL));
 }
 
 #endif

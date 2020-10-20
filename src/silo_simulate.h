@@ -22,13 +22,12 @@ public:
     int numberOfthread;
 
     int  * thread_id;
-    volatile bool * thread_ready;
-    volatile bool   thread_start;
+    bool * thread_ready;
+    bool * thread_start;
 
-    std::condition_variable cond;
-    std::condition_variable mainthread;
-    std::mutex mtx;
-    std::unique_lock<std::mutex> * lock;
+    std::condition_variable condsub, condmain;
+    std::mutex mtxsub, mtxmain;
+    std::unique_lock<std::mutex> * locksub, * lockmain;
 	
 	
 	

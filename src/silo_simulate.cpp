@@ -17,21 +17,25 @@ using std::thread;
 
 
 Simulator::simulatorclass() {
-    lock = new std::unique_lock<std::mutex>(mtx);
+    this->locksub = new std::unique_lock<std::mutex>(mtxsub);
+    this->lockmain = new std::unique_lock<std::mutex>(mtxmain);
 
-    NextExecVector = new std::vector<NODE *>();
-    SentList = (char*)malloc((long long)NodeGetNumber());
+    this->NextExecVector = new std::vector<NODE *>();
+    this->SentList = (char*)malloc((long long)NodeGetNumber());
 
     // thread create
-    numberOfthread = 16; // default thread
+    this->numberOfthread = 16; // default thread
 
-    thread_id    = (int  *)malloc(sizeof(int) * numberOfthread);
-    thread_ready = (bool *)malloc(sizeof(bool) * numberOfthread);
-    thread_start = false;
+    this->thread_id    = (int  *)malloc(sizeof(int) * this->numberOfthread);
+    this->thread_ready = (bool *)malloc(sizeof(bool) * this->numberOfthread);
+    this->thread_start = (bool *)malloc(sizeof(bool));
+
+    *(this->thread_ready) = false;
+    *(this->thread_start) = false;
 
     for (int i = 0; i < numberOfthread; i++) {
         thread_id[i] = i;
-        auto * thr = new thread(Simulator::Thread, this, &thread_id[i], &thread_ready[i] );
+        auto * thr = new thread(Simulator::Thread, this, &thread_id[i], &thread_ready[i]);
         thr->detach();
     }
 }
@@ -39,7 +43,9 @@ Simulator::~simulatorclass() {
     free(this->thread_id);
     free((void *) this->thread_ready);
     free(this->SentList);
-    delete lock;
+    free(this->thread_start);
+    delete lockmain;
+    delete locksub;
 }
 
 
@@ -47,10 +53,11 @@ Simulator::~simulatorclass() {
 int Simulator::begin() {
 	int i, response;
 	
-    this->thread_start = true;
-    this->cond.notify_all();
+    *(this->thread_start) = true;
+    this->condsub.notify_all();
+    *(this->thread_start) = false;
     
-    mainthread.wait();
+    this->condmain.wait(*lockmain);
     
     for (i = 0; i < numberOfthread; i++)
 		response += (int) thread_ready[i];
@@ -70,16 +77,16 @@ void * Simulator::Thread(Simulator * sim, const int * tid, volatile bool * trd) 
     {
         // wait for the simulate
 		*trd = true;
+
+		for (i = response = 0; i < sim->numberOfthread; i++)
+			response += (int) sim->thread_ready[i];
 	
-		for (i = response = 0; i < numberOfthread; i++)
-			response += (int) thread_ready[i];
-	
-		if (response == numberOfthread - 1) {
-			mainthread.notify_all();
-			cond.wait();
+		if (response == sim->numberOfthread - 1) {
+			sim->condmain.notify_all();
+			sim->condsub.wait(*(sim->locksub));
 		}
 		else
-			cond.wait();
+            sim->condsub.wait(*(sim->locksub));
 		*trd = false;
         
         sim->Simulation(tid);
@@ -89,10 +96,11 @@ void * Simulator::Thread(Simulator * sim, const int * tid, volatile bool * trd) 
 
 NODEID Simulator::Simulation(const int * tid) {
     NODEID n;
-    
-	for (n = 0; (n += this->numberOfthread + *tid) < this->NextExecVector->size();)
-    	this->NextExecVector->at(n)->function(this->NextExecVector->at(n), this);
-    
+	for (n = *tid; n < this->NextExecVector->size();) {
+        this->NextExecVector->at(n)->function(this->NextExecVector->at(n), this);
+        n += this->numberOfthread;
+    }
+
 	return n;
 }
 void   Simulator::makeVector() {
