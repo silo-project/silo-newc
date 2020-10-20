@@ -25,7 +25,6 @@ typedef DEFT_WORD PORTID;
 typedef DEFT_WORD WIREID;
 
 #define BASICMEM 4096 // 4KiB = 1Page
-#define DEFT_THREAD 16
 
 typedef union unisign {
 	SILO_WORD uint;
