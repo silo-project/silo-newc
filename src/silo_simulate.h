@@ -28,34 +28,23 @@ public:
     std::condition_variable cond;
     std::mutex mtx;
     std::unique_lock<std::mutex> * lock;
-
-    void makeVector();
-
+	
+	
+	
     void SendSignal(NODE *node, WIREID dest, wireclass::SIGNAL sig);
-    static void * beginThread(Simulator * sim, const int * tid, volatile bool * trd);
+    void * Thread(const int * tid, volatile bool * trd);
 
-    int Simulate();
+    int begin();
+    int beginTicks(DEFT_DWRD);
+    int beginCycle(DEFT_DWRD)
+    
+private:
+	NODEID Simulation();
+	void   makeVector();
 };
 
 
-/*
-int SimuInit();
-int SimuReset();
-int Simulate();
 
-void SendSignal(NODE * node, WIREID dest, WIRE::SIGNAL sig);
-//void SendInteger(SENDFORM sendform, DEFT_WORD integer);
-
-int SimuReSizeList(DEFT_ADDR size);
-
-void makeVector();
-static int setThread(int);
-
-
-// definition(functions)
-// =static
-// =public
-*/
 
 
 #endif
