@@ -45,38 +45,42 @@ Simulator::~simulatorclass() {
 
 
 int Simulator::begin() {
+	int i, response;
+	
     this->thread_start = true;
     this->cond.notify_all();
-    return 0;
+    
+    mainthread.wait();
+    
+    for (i = 0; i < numberOfthread; i++)
+		response += (int) thread_ready[i];
+	if (response != numberOfthread)
+		return -1;
+	else
+		return 0;
 }
-int Simulator::beginTicks(DEFT_DWRD ticks) {
-	DEFT_DWRD i;
-	
-	for (i = 0; i < ticks; i++) {
-		
-	}
-}
-
-int Simulator::beginCycle(DEFT_DWRD cycle) {
-	DEFT_DWRD i;
-	
-	for (i = 0; i < cycle; i++) {
-		
-	}
-}
-
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
 void * Simulator::Thread(Simulator * sim, const int * tid, volatile bool * trd) {
+	int i, response;
     NODEID n;
 
     while (true)
     {
         // wait for the simulate
-        if (!sim->thread_start)
-            sim->cond.wait(*(sim->lock));
-        *trd = false;
+		*trd = true;
+	
+		for (i = response = 0; i < numberOfthread; i++)
+			response += (int) thread_ready[i];
+	
+		if (response == numberOfthread - 1) {
+			mainthread.notify_all();
+			cond.wait();
+		}
+		else
+			cond.wait();
+		*trd = false;
         
         sim->Simulation(tid);
     }
@@ -84,10 +88,12 @@ void * Simulator::Thread(Simulator * sim, const int * tid, volatile bool * trd) 
 #pragma clang diagnostic pop
 
 NODEID Simulator::Simulation(const int * tid) {
-    int n;
+    NODEID n;
+    
 	for (n = 0; (n += this->numberOfthread + *tid) < this->NextExecVector->size();)
     	this->NextExecVector->at(n)->function(this->NextExecVector->at(n), this);
-    return n;
+    
+	return n;
 }
 void   Simulator::makeVector() {
     NODEID i, j;

@@ -2,6 +2,7 @@
 #define SILO_NODE_CODE
 
 #include <cstdlib>
+#include <cstring>
 #include <map>
 #include "silo_define.h"
 #include "silo_node.h"

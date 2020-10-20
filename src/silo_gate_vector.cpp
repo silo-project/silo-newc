@@ -2,6 +2,7 @@
 #define SILO_GATEVECTOR_CODE
 
 #include <cstdio>
+#include <cstring>
 #include "silo_node.h"
 #include "silo_gate.h"
 #include "silo_simulate.h"
@@ -60,6 +61,6 @@ void GateSTD_VEC(NODE * node, Simulator* sim) {
 		node->WriteOutput(2, &z);
 		sim->SendSignal(node);
 	}
-	}
+}
 
 #endif

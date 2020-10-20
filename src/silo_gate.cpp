@@ -16,8 +16,6 @@ void Gate::GateADD(NODE * node, Simulator * sim) {
     c.value = a->value + b->value;
     c.state = -1;
 
-    printf("GateADD %d %d", c.value, sim);
-
     node->WriteOutput(2, &c);
     sim->SendSignal(node);
 }
@@ -31,8 +29,6 @@ void Gate::GateSUB(NODE * node, Simulator * sim) {
     c.value = a->value - b->value;
     c.state = -1;
 
-    printf("GateADD %d %d", c.value, sim);
-
     node->WriteOutput(2, &c);
     sim->SendSignal(node);
 }
@@ -44,8 +40,6 @@ void Gate::GateMUL(NODE * node, Simulator * sim) {
 
     c.value = a->value * b->value;
     c.state = -1;
-
-    printf("GateADD %d %d", c.value, sim);
 
     node->WriteOutput(2, &c);
     sim->SendSignal(node);
@@ -60,8 +54,6 @@ void Gate::GateDIV(NODE * node, Simulator * sim) {
     c.value = a->value / b->value;
     c.state = -1;
 
-    printf("GateADD %d %d", c.value, sim);
-
     node->WriteOutput(2, &c);
     sim->SendSignal(node);
 }
@@ -74,8 +66,6 @@ void Gate::GateMOD(NODE * node, Simulator * sim) {
 
     c.value = a->value % b->value;
     c.state = -1;
-
-    printf("GateADD %d %d", c.value, sim);
 
     node->WriteOutput(2, &c);
     sim->SendSignal(node);
@@ -90,8 +80,6 @@ void Gate::GateAND(NODE * node, Simulator * sim) {
     c.value = a->value & b->value;
     c.state = -1;
 
-    printf("GateADD %d %d", c.value, sim);
-
     node->WriteOutput(2, &c);
     sim->SendSignal(node);
 }
@@ -105,8 +93,6 @@ void Gate::GateIOR(NODE * node, Simulator * sim) {
     c.value = a->value | b->value;
     c.state = -1;
 
-    printf("GateADD %d %d", c.value, sim);
-
     node->WriteOutput(2, &c);
     sim->SendSignal(node);
 }
@@ -119,8 +105,6 @@ void Gate::GateEOR(NODE * node, Simulator * sim) {
 
     c.value = a->value ^ b->value;
     c.state = -1;
-
-    printf("GateADD %d %d", c.value, sim);
 
     node->WriteOutput(2, &c);
     sim->SendSignal(node);
@@ -137,8 +121,6 @@ void Gate::GateROL(NODE * node, Simulator * sim) {
     c.value = a->value << b->value;
     c.state = -1;
 
-    printf("GateADD %d %d", c.value, sim);
-
     node->WriteOutput(2, &c);
     sim->SendSignal(node);
 }
@@ -150,8 +132,6 @@ void Gate::GateROR(NODE * node, Simulator * sim) {
 
     c.value = a->value >> b->value;
     c.state = -1;
-
-    printf("GateADD %d %d", c.value, sim);
 
     node->WriteOutput(2, &c);
     sim->SendSignal(node);

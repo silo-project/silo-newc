@@ -26,6 +26,7 @@ public:
     volatile bool   thread_start;
 
     std::condition_variable cond;
+    std::condition_variable mainthread;
     std::mutex mtx;
     std::unique_lock<std::mutex> * lock;
 	
