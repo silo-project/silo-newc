@@ -20,6 +20,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <unistd.h>
 
 #include "silo_define.h"
 #include "silo_node.h"
@@ -27,10 +28,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "silo_simulate.h"
 #include "silo_gate.h"
 
+
+
 int main(int argc, char ** argv) {
-	NODEID nodeid;
+	NODEID n;
 	NODE * node;
-	int i;
+	SIGNAL x, y, z;
+	SENDFORM d, s, t;
+	int i, j;
+	int status;
 	
 	int initstatnode = NodeInit();
 	int initstatrecy = RecyInit();
@@ -39,17 +45,44 @@ int main(int argc, char ** argv) {
 	if (initstatnode || initstatrecy || initstatsimu)
 		return -1;
 	
-	for (; i < 2048;) {
-		i = NodeCreate();
-		printf("Nodeid : %d\n", i);
-	}
+	d.portid = 0;
+	x.state = -1;
+	y.state = -1;
 	
-	for (i = 0; i < 2048; i++) {
-		NodeDelete(i);
-	}
+	SimuReSizeExec(BASICMEM);
+	SimuReSizeList(BASICMEM);
 	
-	for (i = 0; i < 2048; i++) {
-		printf("Node Pointer(Index : %d) : %p\n", i, NodeGetPtr(i));
+	for (i = 0; i < 10; i++) {
+		n = NodeCreate();
+		NodeSetMemory(n, 64);
+		NodeSetOfsAttr(n, 0);
+		NodeSetOfsInpt(n, 2);
+		NodeSetOfsOupt(n, 32);
+		NodeSetAttr(n, n, 0);
+		NodeSetAttr(n, 10, 1);
+		NodeSetType(n, GateSTD_VEC);
+		for (j = 0; j < 20; j++) {
+			d.nodeid = n;
+			s.nodeid = n;
+			s.portid = 2;
+			NodeSetOupt(d, s);
+			x.value = 12+n;
+			y.value = 34+n;
+			t.nodeid = n;
+			t.portid = j++;
+			SendSignal(t, x);
+			t.portid = j;
+			SendSignal(t, y);
+		}
+	}
+	SimuMakeList();
+	
+	status = Simulate();
+	
+	sleep(1);
+	
+	for (i = 0; node = NodeGetPtr(i); i++) {
+		printf("Nodeid : %d, Result : %d\n", i, node->input[2]);
 	}
 	
 	return 0;

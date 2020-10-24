@@ -8,13 +8,14 @@ extern "C" {
 #include "silo_define.h"
 
 int SimuInit(void);
+int SimuReset(void);
 int Simulate(void);
 
-int SimuReSizeList();
-
-void SimuSend(SENDFORM sendform, SIGNAL signal);
-void SimuSendInteger(SENDFORM sendform, DEFT_WORD integer);
 void SimuMakeList(void);
+void SendSignal(SENDFORM sendform, SIGNAL signal);
+void SendInteger(SENDFORM sendform, DEFT_WORD integer);
+
+
 
 #endif
 
